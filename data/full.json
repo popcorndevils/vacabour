@@ -218,7 +218,6 @@
     "коне́чно": "(of course)",
     "ве́чером": "(in the evening)",
     "но́чью": "(at night)",
-    "обы́": "чно (usually)",
     "темно́": "(it’s dark)",
     "светло́": "(it’s light)",
     "аудито́рия": "classroom",
@@ -228,7 +227,7 @@
     "де́душка": "grandfather",
     "де́ти": "children",
     "диск": "CD, DVD",
-    "До": "свида́ния! Goodbye!",
+    "До свида́ния!": "Goodbye!",
     "дя́дя": "uncle",
     "земля́": "Earth, land",
     "здесь": "= тут (here)",
@@ -272,5 +271,8 @@
     "государственный": "of the state",
     "деньги": "money",
     "цифра": "digit, numeral",
-    "военный": "military"
+    "военный": "military",
+    "платье": "dress",
+    "нельзя": "may not",
+    "кабинет": "office (false cognate)"
 }

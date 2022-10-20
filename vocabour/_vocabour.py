@@ -2,24 +2,24 @@ import ipywidgets as w
 import json
 import pathlib
 from ._game_multiple import GameMultiple
+from .sections import Glossary
 
 class Vocabour(w.VBox):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._fld_topics = w.SelectMultiple()
-        self._btn_start = w.Button(description = "BEGIN")
+        self._btn_start = w.Button(description = "Glossary")
+        self._glossary = Glossary()
         self._game_multi = GameMultiple()
 
         self.VOCAB = {}
         self.children = self.widgets
 
-        self._btn_start.on_click(self.handle_begin)
+        self._btn_start.on_click(self.handle_glossary)
         self._game_multi.menu_callback = self.handle_menu_callback
 
     @property
     def widgets(self):
         return [
-            self._fld_topics,
             self._btn_start,
         ]
 
@@ -36,16 +36,8 @@ class Vocabour(w.VBox):
 
         self._fld_topics.options = ["*", *[k for k in self.VOCAB.keys()]]
 
-    def handle_begin(self, _):
-        _topics = None
-        if "*" in self._fld_topics.value:
-            _topics = self.VOCAB
-        else:
-            _topics = {k: self.VOCAB[k] for k in self._fld_topics.value}
-
-        if _topics is not None and len(_topics) > 0:
-            self._game_multi.load_data(_topics)
-            self.children = [self._game_multi]
+    def handle_glossary(self, _):
+        self.children = [self._glossary]
 
     def handle_menu_callback(self, _):
         self.children = self.widgets

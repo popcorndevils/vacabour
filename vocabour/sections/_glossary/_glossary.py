@@ -1,5 +1,6 @@
 import ipywidgets as w
 from ._definer import Definer
+from ...data import Word
 
 class Glossary(w.VBox):
     def __init__(self, *args, **kwargs):
@@ -57,7 +58,18 @@ class Glossary(w.VBox):
         self._word_list.index = None
         self.IGNORE_EVENTS = False
 
+        print(self.save_data())
+
     def handle_select_word(self, _):
         if self._word_list.index is not None and not self.IGNORE_EVENTS:
             self._definer.open_word(self.LOADED_GLOSSARY[self._word_list.index])
             self._word_display.children = [self._definer]
+
+    def save_data(self):
+        _verbs = [w for w in self.LOADED_GLOSSARY if w.type == Word.Type.VERB]
+        _nouns = [w for w in self.LOADED_GLOSSARY if w.type == Word.Type.NOUN]
+
+        return {
+            "nouns": [n.save_data() for n in _nouns],
+            "verbs": [v.save_data() for v in _verbs]
+        }

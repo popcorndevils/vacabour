@@ -105,16 +105,26 @@ class DefineVerb(w.VBox):
     def handle_save_word(self, _):
         if len(self._REGISTERED_SAVE_WORD) > 0 and self._fld_imper_inf.value != "":
             _out = Verb()
+            _base = self._fld_imper_inf.value.lower()
 
-            _out.dictionary_form = self._fld_imper_inf.value
+            _out.dictionary_form = _base
             _out.definition = self._fld_definition.value
 
-            _out.imper_ya = self._fld_imper_ya.value
-            _out.imper_ti = self._fld_imper_ti.value
-            _out.imper_vi = self._fld_imper_ti.value
-            _out.imper_mi = self._fld_imper_mi.value
-            _out.imper_on = self._fld_imper_on.value
-            _out.imper_oni = self._fld_imper_oni.value
+            _ya_val = self._fld_imper_ya.value
+            _ti_val = self._fld_imper_ti.value
+            _vi_val = self._fld_imper_vi.value
+            _mi_val = self._fld_imper_mi.value
+            _on_val = self._fld_imper_on.value
+            _oni_val = self._fld_imper_oni.value
+
+            _out.imper_ya = _ya_val if _ya_val != "" else Conjugation.ya(_base)
+            _out.imper_ti = _ti_val if _ti_val != "" else Conjugation.ti(_base)
+            _out.imper_vi = _vi_val if _vi_val != "" else Conjugation.vi(_base)
+            _out.imper_mi = _mi_val if _mi_val != "" else Conjugation.mi(_base)
+            _out.imper_on = _on_val if _on_val != "" else Conjugation.on(_base)
+            _out.imper_oni = _oni_val if _oni_val != "" else Conjugation.oni(_base)
+
+            _out.tags = [t.strip() for t in self._fld_tags.value.replace("\n", ",").split(",")]
 
             for f in self._REGISTERED_SAVE_WORD:
                 f(_out)

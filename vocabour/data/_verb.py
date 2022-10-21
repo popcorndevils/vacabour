@@ -19,3 +19,29 @@ class Verb(Word):
         self.per_mi = None
         self.per_on = None
         self.per_oni = None
+
+    def save_data(self):
+        return {
+            "type": self.type,
+            "dictionary": self.dictionary_form,
+            "definition": self.definition,
+            "imper_ya": self.imper_ya,
+            "imper_ti": self.imper_ti,
+            "imper_vi": self.imper_vi,
+            "imper_mi": self.imper_mi,
+            "imper_on": self.imper_on,
+            "imper_oni": self.imper_oni,
+        }
+
+    @staticmethod
+    def from_data(data):
+        _out = Verb()
+        _out.dictionary_form = data.get("dictionary", None)
+        _out.definition = data.get("definition", None)
+        _out.imper_ya = data.get("imper_ya", None)
+        _out.imper_ti = data.get("imper_ti", None)
+        _out.imper_vi = data.get("imper_vi", None)
+        _out.imper_mi = data.get("imper_mi", None)
+        _out.imper_on = data.get("imper_on", None)
+        _out.imper_oni = data.get("imper_oni", None)
+        return _out

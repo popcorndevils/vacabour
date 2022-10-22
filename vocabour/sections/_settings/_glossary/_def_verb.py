@@ -1,11 +1,13 @@
 import ipywidgets as w
+from pyparsing import Word
 from ._def_menu import DefMenu
+from ._word_info import WordInfo
 from ....grammar import Conjugation
 from ....types import Verb
 
 class DefVerb(DefMenu):
     def __init__(self, *args, **kwargs):
-        super().__init__(14, 2, *args, **kwargs)
+        super().__init__(7, 2, *args, **kwargs)
         self._btn_save = w.Button(
             description = "Save",
             layout = w.Layout(width = "auto"))
@@ -13,8 +15,8 @@ class DefVerb(DefMenu):
             description = "Cancel",
             layout = w.Layout(width = "auto"))
 
-        self._fld_imper_inf = w.Text(layout = w.Layout(width = "auto"))
-        self._fld_definition = w.Text(layout = w.Layout(width = "auto"))
+        self._wordinfo = WordInfo()
+
         self._fld_imper_ya = w.Text(layout = w.Layout(width = "auto"))
         self._fld_imper_ti = w.Text(layout = w.Layout(width = "auto"))
         self._fld_imper_vi = w.Text(layout = w.Layout(width = "auto"))
@@ -22,56 +24,49 @@ class DefVerb(DefMenu):
         self._fld_imper_mi = w.Text(layout = w.Layout(width = "auto"))
         self._fld_imper_oni = w.Text(layout = w.Layout(width = "auto"))
 
-        self._fld_tags = w.Textarea(
-            placeholder = "TAGs",
-            layout = w.Layout(width = "auto", height = "100%"))
+        self.header = self._wordinfo
 
-        self.content[0, 0] = w.Label("Infinitive")
-        self.content[1, 0] = w.Label("Definition")
-        self.content[2, 0] = w.Label("Я")
-        self.content[3, 0] = w.Label("Ты")
-        self.content[4, 0] = w.Label("Вы")
-        self.content[5, 0] = w.Label("Он/Она/Оно")
-        self.content[6, 0] = w.Label("Мы")
-        self.content[7, 0] = w.Label("Они")
+        self.content[0, 0] = w.Label("Я")
+        self.content[0, 1] = self._fld_imper_ya
+        self.content[1, 0] = w.Label("Ты")
+        self.content[1, 1] = self._fld_imper_ti
+        self.content[2, 0] = w.Label("Вы")
+        self.content[2, 1] = self._fld_imper_vi
+        self.content[3, 0] = w.Label("Он/Она/Оно")
+        self.content[3, 1] = self._fld_imper_on
+        self.content[4, 0] = w.Label("Мы")
+        self.content[4, 1] = self._fld_imper_mi
+        self.content[5, 0] = w.Label("Они")
+        self.content[5, 1] = self._fld_imper_oni
 
-        self.content[0, 1] = self._fld_imper_inf
-        self.content[1, 1] = self._fld_definition
-        self.content[2, 1] = self._fld_imper_ya
-        self.content[3, 1] = self._fld_imper_ti
-        self.content[4, 1] = self._fld_imper_vi
-        self.content[5, 1] = self._fld_imper_on
-        self.content[6, 1] = self._fld_imper_mi
-        self.content[7, 1] = self._fld_imper_oni
-        self.content[8:-1, 0:] = self._fld_tags
         self.content[-1, 0] = self._btn_save
         self.content[-1, 1] = self._btn_cancel
 
         self.reset()
 
-        self._fld_imper_inf.observe(self.handle_inf_update, "value")
+        self._wordinfo.observe_dictionary(self.handle_inf_update, "value")
         self._btn_save.on_click(self.handle_save)
         self._btn_cancel.on_click(lambda _: self.cancel_word())
 
     def open_word(self, word: Verb):
         super().open_word(word)
-        self._fld_imper_inf.value = word.dictionary_form
-        self._fld_definition.value = word.definition
+        self._wordinfo.open_word(word)
         self._fld_imper_ya.value = word.imper_ya
         self._fld_imper_ti.value = word.imper_ti
         self._fld_imper_vi.value = word.imper_vi
         self._fld_imper_on.value = word.imper_on
         self._fld_imper_mi.value = word.imper_mi
         self._fld_imper_oni.value = word.imper_oni
-        self._fld_tags.value = ", ".join(word.tags)
 
     def handle_inf_update(self, _):
-        _ya = Conjugation.ya(self._fld_imper_inf.value)
-        _ti = Conjugation.ti(self._fld_imper_inf.value)
-        _vi = Conjugation.vi(self._fld_imper_inf.value)
-        _on = Conjugation.on(self._fld_imper_inf.value)
-        _mi = Conjugation.mi(self._fld_imper_inf.value)
-        _oni = Conjugation.oni(self._fld_imper_inf.value)
+        _base = self._wordinfo.dictionary
+
+        _ya = Conjugation.ya(_base)
+        _ti = Conjugation.ti(_base)
+        _vi = Conjugation.vi(_base)
+        _on = Conjugation.on(_base)
+        _mi = Conjugation.mi(_base)
+        _oni = Conjugation.oni(_base)
 
         self._fld_imper_ya.placeholder = _ya if _ya != "" else "ex: работаю"
         self._fld_imper_ti.placeholder = _ti if _ti != "" else "ex: работаешь"
@@ -81,11 +76,9 @@ class DefVerb(DefMenu):
         self._fld_imper_oni.placeholder = _oni if _oni != "" else "ex: работают"
 
     def handle_save(self, _):
-        _out = Verb()
-        _base = self._fld_imper_inf.value.lower()
+        _out = Verb.from_data(self._wordinfo.save_data())
 
-        _out.dictionary_form = _base
-        _out.definition = self._fld_definition.value
+        _base = _out.dictionary_form
 
         _ya_val = self._fld_imper_ya.value.lower()
         _ti_val = self._fld_imper_ti.value.lower()
@@ -101,12 +94,10 @@ class DefVerb(DefMenu):
         _out.imper_on = _on_val if _on_val != "" else Conjugation.on(_base)
         _out.imper_oni = _oni_val if _oni_val != "" else Conjugation.oni(_base)
 
-        _out.tags = [t.strip() for t in self._fld_tags.value.lower().replace("\n", ",").split(",")]
         self.save_word(_out)
 
     def reset(self):
-        self._fld_imper_inf.placeholder = "ex: работать"
-        self._fld_definition.placeholder = "ex: to work"
+        self._wordinfo.reset()
         self._fld_imper_ya.placeholder = "ex: работаю"
         self._fld_imper_ti.placeholder = "ex: работаешь"
         self._fld_imper_vi.placeholder = "ex: работаете"
@@ -114,12 +105,9 @@ class DefVerb(DefMenu):
         self._fld_imper_mi.placeholder = "ex: работаем"
         self._fld_imper_oni.placeholder = "ex: работают"
 
-        self._fld_imper_inf.value = ""
-        self._fld_definition.value = ""
         self._fld_imper_ya.value = ""
         self._fld_imper_ti.value = ""
         self._fld_imper_vi.value = ""
         self._fld_imper_on.value = ""
         self._fld_imper_mi.value = ""
         self._fld_imper_oni.value = ""
-        self._fld_tags.value = ""

@@ -1,7 +1,6 @@
 import ipywidgets as w
 from ._def_manager import DefManager
 from ..._sub_menu import SubMenu
-from ....globals import DATA_FULL_PATH
 
 class Glossary(SubMenu):
     def __init__(self, *args, **kwargs):
@@ -37,7 +36,7 @@ class Glossary(SubMenu):
         self._btn_main_menu.on_click(self.handle_main_menu)
         self._btn_new.on_click(self.handle_new)
         self._btn_delete.on_click(self.handle_delete)
-        self._word_list.observe(self.handle_select_word, "value")
+        self._word_list.observe(self.handle_select_word, "index")
 
     def load(self, glossary):
         self.IGNORE_EVENTS = True

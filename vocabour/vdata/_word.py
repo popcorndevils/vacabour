@@ -8,6 +8,8 @@ class Word:
 
     def __init__(self, *args, **kwargs):
         self.dictionary_form = kwargs.get("dictionary", None) 
+        self.correct = kwargs.get("correct", 0)
+        self.attempts = kwargs.get("attempts", 0)
         self.definition = kwargs.get("definition", None) 
         self.tags = kwargs.get("tags", []) 
 
@@ -19,6 +21,8 @@ class Word:
 
     def save_data(self):
         return {
+            "attempts": self.attempts,
+            "correct": self.correct,
             "dictionary": self.dictionary_form,
             "definition": self.definition,
             "tags": self.tags,

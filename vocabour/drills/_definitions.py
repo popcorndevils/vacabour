@@ -1,17 +1,16 @@
 import ipywidgets as w
 import random as r
 import time as t
+from ._drill import Drill
 
-class DrillDefinitions(w.VBox):
+class Definitions(Drill):
     def __init__(self):
-        w.VBox.__init__(self, layout = w.Layout(max_width = "600px"))
+        super().__init__(layout = w.Layout(max_width = "600px"))
         self.CURRENT_ANSWER = None
         self.POSSIBLE_QUESTIONS = []
-        self.ALL_QUESTIONS = []
         self.attempts = 0
         self.correct = 0
 
-        self.menu_callback = None
         self._btn_main_menu = w.Button(description = "Main Menu")
         self._display_word = w.HTML()
         self._display_stats = w.HTML()
@@ -67,46 +66,69 @@ class DrillDefinitions(w.VBox):
     def load_data(self, data):
         self.attempts = 0
         self.correct = 0
-        self.ALL_QUESTIONS = list(data.items())
+        self.LOADED_GLOSSARY = data
 
-        self.POSSIBLE_QUESTIONS = [i for i in self.ALL_QUESTIONS]
+        self.POSSIBLE_QUESTIONS = [i for i in self.LOADED_GLOSSARY]
 
         self.set_up()
 
     def set_up(self):
-        if len(self.POSSIBLE_QUESTIONS) < 4:
-            self.POSSIBLE_QUESTIONS = [i for i in self.ALL_QUESTIONS]
-        _answers = r.sample(self.POSSIBLE_QUESTIONS, 4)
-        _order = r.choice(((0, 1), (1, 0)))
+        if len(self.POSSIBLE_QUESTIONS) < 1:
+            self.POSSIBLE_QUESTIONS = [i for i in self.LOADED_GLOSSARY]
+
+        _order = r.choice((0, 1))
+
+        _choices = r.sample(self.LOADED_GLOSSARY, 4)
+        self.CURRENT_ANSWER = r.choice(self.POSSIBLE_QUESTIONS)
+        self.CURRENT_ANSWER.attempts += 1
+
+        if self.CURRENT_ANSWER not in _choices:
+            _choices.remove(r.choice(_choices))
+            _choices.append(self.CURRENT_ANSWER)
+
+        r.shuffle(_choices)
 
         for i, b in enumerate(self.answer_buttons):
             b.button_style = ""
-            b.answer = _answers[i]
-            b.description = b.answer[_order[0]]
+            b.answer = _choices[i]
+            if _order == 0:
+                b.description = b.answer.dictionary_form
+            else:
+                b.description = b.answer.definition
 
-        self.CURRENT_ANSWER = r.choice(self.answer_buttons)
-        _prompt = self.CURRENT_ANSWER.answer[_order[1]]
+        if _order == 0:
+            _prompt = self.CURRENT_ANSWER.definition
+        else:
+            _prompt = self.CURRENT_ANSWER.dictionary_form
+
+        _num = len(self.POSSIBLE_QUESTIONS)
+        _num_phrase = f"{_num} terms" if _num > 1 else "1 term"
+
         self._display_word.value = f"<center><h1>{_prompt}</h1></center>"
+        self._display_stats.value = f"<p align=\"right\">{_num_phrase} remaining.</p>"
         if self.attempts <= 0:
-            self._display_stats.value = "<p align=\"right\">0%</p>"
+            self._display_stats.value += "<p align=\"right\">0%, "
         else:
             _stat = (self.correct / self.attempts) * 100
-            self._display_stats.value = f"<p align=\"right\">{_stat:.1f}%</p>"
+            self._display_stats.value += f"<p align=\"right\">{_stat:.1f}%, "
+        self._display_stats.value += f"{self.correct}/{self.attempts}</p>"
 
     def handle_answer(self, btn):
         self.attempts += 1
 
-        if btn is self.CURRENT_ANSWER:
+        if btn.answer is self.CURRENT_ANSWER:
             self.POSSIBLE_QUESTIONS.remove(btn.answer)
+            self.CURRENT_ANSWER.correct += 1
             btn.button_style = "success"
             self.correct += 1
         else:
             btn.button_style = "danger"
-            self.CURRENT_ANSWER.button_style = "info"
+            for b in self.answer_buttons:
+                if b.answer == self.CURRENT_ANSWER:
+                    b.button_style = "info"
 
         t.sleep(1)
         self.set_up()
 
     def handle_main_menu(self, _):
-        if self.menu_callback is not None:
-            self.menu_callback(self)
+        self.exit()

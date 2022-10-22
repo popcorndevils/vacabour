@@ -1,9 +1,9 @@
 import json
 import ipywidgets as w
 from . import vdata
-from . import drills
-from .globals import DATA_DIRECTORY, DATA_FULL_PATH
+from .sections import drills
 from .sections import Glossary
+from .globals import DATA_DIRECTORY, DATA_FULL_PATH
 
 class Vocabour(w.VBox):
     def __init__(self, *args, **kwargs):
@@ -11,9 +11,8 @@ class Vocabour(w.VBox):
         self._glossary = Glossary()
         self._drill_defs = drills.Definitions()
 
-        # options
+        # sections
         self._btn_glossary = w.Button(description = "Glossary")
-        # drills
         self._btn_drill_defs = w.Button(description = "Defintions")
 
         if not DATA_DIRECTORY.exists():
@@ -27,10 +26,13 @@ class Vocabour(w.VBox):
 
         self.children = [self._accordian]
 
-        self._btn_glossary.on_click(self.handle_glossary)
-        self._glossary.on_exit(self.handle_glossary_exit)
-        self._drill_defs.on_exit(self.handle_drill_exit)
+        self._btn_glossary.on_click(self.handle_open_glossary)
         self._btn_drill_defs.on_click(self.handle_open_drill_defs)
+
+        self._glossary.on_exit(self.handle_section_exit)
+        self._drill_defs.on_exit(self.handle_section_exit)
+        self._glossary.on_save(self.handle_save_glossary)
+        self._drill_defs.on_save(self.handle_save_glossary)
 
     @property
     def menu(self):
@@ -43,7 +45,7 @@ class Vocabour(w.VBox):
             ]),
         ]
 
-    def handle_glossary(self, _):
+    def handle_open_glossary(self, _):
         self._glossary.load(self._get_glossary())
         self.children = [self._glossary]
 
@@ -53,10 +55,12 @@ class Vocabour(w.VBox):
             file.write(json.dumps(_save))
         self._reset()
 
-    def handle_glossary_exit(self, glossary):
+    def handle_save_glossary(self, glossary):
         _save = self._save_glossary(glossary.LOADED_GLOSSARY)
         with open(DATA_FULL_PATH, "w") as file:
             file.write(json.dumps(_save))
+
+    def handle_section_exit(self, sender):
         self._reset()
 
     def handle_open_drill_defs(self, _):

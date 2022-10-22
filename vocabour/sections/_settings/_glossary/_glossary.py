@@ -1,14 +1,11 @@
-import json
 import ipywidgets as w
 from ._definer import Definer
-from .._sub_menu import SubMenu
-from ... import vdata
-from ...globals import DATA_FULL_PATH
+from ..._sub_menu import SubMenu
+from ....globals import DATA_FULL_PATH
 
 class Glossary(SubMenu):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.LOADED_GLOSSARY = []
+        super().__init__(10, 4, *args, **kwargs)
 
         self._definer = Definer()
 
@@ -27,11 +24,12 @@ class Glossary(SubMenu):
         self._word_list = w.Select(layout = w.Layout(height = "auto", width = "auto"))
 
         # create layout
-        self._grid = w.GridspecLayout(10, 4)
-        self._grid[0, 0] = self._btn_new
-        self._grid[0, 1] = self._btn_delete
-        self._grid[1:, :2] = self._word_list
-        self._grid[0:, 2:] = self._word_display
+        self.header = self._btn_main_menu
+
+        self.content[0, 0] = self._btn_new
+        self.content[0, 1] = self._btn_delete
+        self.content[1:, :2] = self._word_list
+        self.content[0:, 2:] = self._word_display
 
         # events
         self._definer.on_save(self.handle_save_word)
@@ -39,15 +37,6 @@ class Glossary(SubMenu):
         self._btn_main_menu.on_click(self.handle_main_menu)
         self._btn_new.on_click(self.handle_new)
         self._word_list.observe(self.handle_select_word, "value")
-
-        self.children = self.widgets
-
-    @property
-    def widgets(self):
-        return [
-            self._btn_main_menu,
-            self._grid
-        ]
 
     def load(self, glossary):
         self.IGNORE_EVENTS = True
@@ -60,6 +49,7 @@ class Glossary(SubMenu):
 
     def handle_main_menu(self, _):
         self._word_display.children = []
+        self.save()
         self.exit()
 
     def handle_new(self, _):

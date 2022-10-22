@@ -1,1 +1,1 @@
-from ._glossary import Glossary
+from ._settings import Glossary

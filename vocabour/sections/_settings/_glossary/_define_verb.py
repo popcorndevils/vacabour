@@ -1,7 +1,6 @@
-from logging import PlaceHolder
 import ipywidgets as w
-from ...grammar import Conjugation
-from ...vdata import Verb
+from ....grammar import Conjugation
+from ....vdata import Verb
 
 class DefineVerb(w.VBox):
     def __init__(self, *args, **kwargs):

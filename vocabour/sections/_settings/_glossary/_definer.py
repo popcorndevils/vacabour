@@ -1,6 +1,6 @@
 import ipywidgets as w
 from ._define_verb import DefineVerb
-from ... import vdata
+from .... import vdata
 
 class Definer(w.VBox):
     def __init__(self):

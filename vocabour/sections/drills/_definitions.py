@@ -1,11 +1,11 @@
 import ipywidgets as w
 import random as r
 import time as t
-from ._drill import Drill
+from .._sub_menu import SubMenu
 
-class Definitions(Drill):
+class Definitions(SubMenu):
     def __init__(self):
-        super().__init__(layout = w.Layout(max_width = "600px"))
+        super().__init__(3, 2, layout = w.Layout(max_width = "600px"))
         self.CURRENT_ANSWER = None
         self.POSSIBLE_QUESTIONS = []
         self.attempts = 0
@@ -38,21 +38,15 @@ class Definitions(Drill):
             bottom_right = self._btn_ans_4,
         )
 
-        self.children = self.widgets
+        self.header = self._btn_main_menu
+        self.content[0, 1] = self._display_stats
+        self.content[1, 0:] = self._display_word
+        self.content[2, 0:] = self._grid_btns
 
         self._btn_main_menu.on_click(self.handle_main_menu)
 
         for b in self.answer_buttons:
             b.on_click(self.handle_answer)
-
-    @property
-    def widgets(self):
-        return [
-            self._btn_main_menu,
-            self._display_stats,
-            self._display_word,
-            self._grid_btns,
-        ]
 
     @property
     def answer_buttons(self):
@@ -131,4 +125,5 @@ class Definitions(Drill):
         self.set_up()
 
     def handle_main_menu(self, _):
+        self.save()
         self.exit()

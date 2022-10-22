@@ -47,15 +47,11 @@ class DefVerb(DefMenu):
         self.content[-1, 0] = self._btn_save
         self.content[-1, 1] = self._btn_cancel
 
-        self._reset()
+        self.reset()
 
         self._fld_imper_inf.observe(self.handle_inf_update, "value")
         self._btn_save.on_click(self.handle_save)
         self._btn_cancel.on_click(lambda _: self.cancel_word())
-
-    def new_word(self):
-        super().new_word()
-        self._reset()
 
     def open_word(self, word: Verb):
         super().open_word(word)
@@ -91,12 +87,12 @@ class DefVerb(DefMenu):
         _out.dictionary_form = _base
         _out.definition = self._fld_definition.value
 
-        _ya_val = self._fld_imper_ya.value
-        _ti_val = self._fld_imper_ti.value
-        _vi_val = self._fld_imper_vi.value
-        _mi_val = self._fld_imper_mi.value
-        _on_val = self._fld_imper_on.value
-        _oni_val = self._fld_imper_oni.value
+        _ya_val = self._fld_imper_ya.value.lower()
+        _ti_val = self._fld_imper_ti.value.lower()
+        _vi_val = self._fld_imper_vi.value.lower()
+        _mi_val = self._fld_imper_mi.value.lower()
+        _on_val = self._fld_imper_on.value.lower()
+        _oni_val = self._fld_imper_oni.value.lower()
 
         _out.imper_ya = _ya_val if _ya_val != "" else Conjugation.ya(_base)
         _out.imper_ti = _ti_val if _ti_val != "" else Conjugation.ti(_base)
@@ -105,11 +101,10 @@ class DefVerb(DefMenu):
         _out.imper_on = _on_val if _on_val != "" else Conjugation.on(_base)
         _out.imper_oni = _oni_val if _oni_val != "" else Conjugation.oni(_base)
 
-        _out.tags = [t.strip() for t in self._fld_tags.value.replace("\n", ",").split(",")]
+        _out.tags = [t.strip() for t in self._fld_tags.value.lower().replace("\n", ",").split(",")]
         self.save_word(_out)
-        self._reset()
 
-    def _reset(self):
+    def reset(self):
         self._fld_imper_inf.placeholder = "ex: работать"
         self._fld_definition.placeholder = "ex: to work"
         self._fld_imper_ya.placeholder = "ex: работаю"

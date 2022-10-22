@@ -1,3 +1,4 @@
+from distutils.log import warn
 from ..._sub_menu import SubMenu
 
 class DefMenu(SubMenu):
@@ -17,9 +18,11 @@ class DefMenu(SubMenu):
         for f in self._HANDLERS_SAVE_WORD:
             f(new_word, self._EDIT_WORD)
         self._EDIT_WORD = None
+        self.reset()
 
     def new_word(self):
         self._EDIT_WORD = None
+        self.reset()
 
     def cancel_word(self):
         for f in self._HANDLERS_CANCEL_WORD:
@@ -27,3 +30,6 @@ class DefMenu(SubMenu):
 
     def open_word(self, word):
         self._EDIT_WORD = word
+
+    def reset(self):
+        warn("reset not defined")

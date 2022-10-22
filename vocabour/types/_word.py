@@ -12,6 +12,7 @@ class Word:
         self.correct = kwargs.get("correct", 0)
         self.attempts = kwargs.get("attempts", 0)
         self.definition = kwargs.get("definition", None) 
+        self.sentence_form = kwargs.get("sentence_form", None)
         self.tags = kwargs.get("tags", []) 
 
     def __eq__(self, other):
@@ -26,5 +27,6 @@ class Word:
             "correct": self.correct,
             "dictionary": self.dictionary_form,
             "definition": self.definition,
+            "sentence_form": self.sentence_form,
             "tags": self.tags,
         }

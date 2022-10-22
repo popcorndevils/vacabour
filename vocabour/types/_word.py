@@ -3,6 +3,7 @@ class Word:
         UNDEFINED = "WORD_TYPE_UNDEFINED"
         VERB = "WORD_TYPE_VERB"
         NOUN = "WORD_TYPE_NOUN"
+        PRONOUN = "WORD_TYPE_PRONOUN"
 
     type = Type.UNDEFINED
 

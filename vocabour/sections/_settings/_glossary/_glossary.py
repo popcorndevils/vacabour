@@ -1,5 +1,5 @@
 import ipywidgets as w
-from ._definer import Definer
+from ._def_manager import DefManager
 from ..._sub_menu import SubMenu
 from ....globals import DATA_FULL_PATH
 
@@ -7,7 +7,7 @@ class Glossary(SubMenu):
     def __init__(self, *args, **kwargs):
         super().__init__(10, 4, *args, **kwargs)
 
-        self._definer = Definer()
+        self._definer = DefManager()
 
         # child widgets
         self._btn_main_menu = w.Button(
@@ -32,8 +32,8 @@ class Glossary(SubMenu):
         self.content[0:, 2:] = self._word_display
 
         # events
-        self._definer.on_save(self.handle_save_word)
-        self._definer.on_cancel(self.handle_cancel)
+        self._definer.on_save_word(self.handle_save_word)
+        self._definer.on_cancel_word(self.handle_cancel)
         self._btn_main_menu.on_click(self.handle_main_menu)
         self._btn_new.on_click(self.handle_new)
         self._word_list.observe(self.handle_select_word, "value")

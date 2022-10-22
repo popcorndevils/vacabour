@@ -1,6 +1,6 @@
 import json
 import ipywidgets as w
-from . import vdata
+from . import types
 from .sections import drills
 from .sections import Glossary
 from .globals import DATA_DIRECTORY, DATA_FULL_PATH
@@ -76,17 +76,21 @@ class Vocabour(w.VBox):
             with open(DATA_FULL_PATH, "r") as file:
                 _data = json.loads(file.read())
                 for n in _data.get("nouns", []):
-                    _glossary.append(vdata.Noun.from_data(n))
+                    _glossary.append(types.Noun.from_data(n))
                 for v in _data.get("verbs", []):
-                    _glossary.append(vdata.Verb.from_data(v))
+                    _glossary.append(types.Verb.from_data(v))
+                for v in _data.get("pronouns", []):
+                    _glossary.append(types.Verb.from_data(v))
             return _glossary
         return None
 
     def _save_glossary(self, glossary):
-        _verbs = [w for w in glossary if w.type == vdata.Word.Type.VERB]
-        _nouns = [w for w in glossary if w.type == vdata.Word.Type.NOUN]
+        _verbs = [w for w in glossary if w.type == types.Word.Type.VERB]
+        _nouns = [w for w in glossary if w.type == types.Word.Type.NOUN]
+        _pronouns = [w for w in glossary if w.type == types.Word.Type.PRONOUN]
 
         return {
             "nouns": [n.save_data() for n in _nouns],
-            "verbs": [v.save_data() for v in _verbs]
+            "verbs": [v.save_data() for v in _verbs],
+            "pronouns": [p.save_data() for p in _pronouns],
         }

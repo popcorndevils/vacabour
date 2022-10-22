@@ -1,6 +1,6 @@
 from __future__ import annotations
 import ipywidgets as w
-from ..vdata import Word
+from ..types import Word
 from typing import Callable
 
 class SubMenu(w.VBox):

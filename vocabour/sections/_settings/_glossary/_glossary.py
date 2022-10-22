@@ -36,6 +36,7 @@ class Glossary(SubMenu):
         self._definer.on_cancel_word(self.handle_cancel)
         self._btn_main_menu.on_click(self.handle_main_menu)
         self._btn_new.on_click(self.handle_new)
+        self._btn_delete.on_click(self.handle_delete)
         self._word_list.observe(self.handle_select_word, "value")
 
     def load(self, glossary):
@@ -55,6 +56,14 @@ class Glossary(SubMenu):
     def handle_new(self, _):
         self._word_display.children = [self._definer]
         self._definer.new_word()
+
+    def handle_delete(self, _):
+        if self._word_list.index is not None:
+            _torem = self.LOADED_GLOSSARY[self._word_list.index]
+            self._word_list.index = None
+            self.LOADED_GLOSSARY.remove(_torem)
+            self._sort_glossary()
+            self.handle_cancel()
 
     def handle_save_word(self, word, original = None):
         if original:

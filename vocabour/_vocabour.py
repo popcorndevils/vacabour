@@ -80,7 +80,7 @@ class Vocabour(w.VBox):
                 for v in _data.get("verbs", []):
                     _glossary.append(types.Verb.from_data(v))
                 for v in _data.get("pronouns", []):
-                    _glossary.append(types.Verb.from_data(v))
+                    _glossary.append(types.Pronoun.from_data(v))
             return _glossary
         return None
 

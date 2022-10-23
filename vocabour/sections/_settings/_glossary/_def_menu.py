@@ -1,12 +1,50 @@
-from distutils.log import warn
-from ..._sub_menu import SubMenu
+import ipywidgets as w
 
-class DefMenu(SubMenu):
-    def __init__(self, rows, cols, *args, **kwargs):
-        super().__init__(rows, cols, *args, **kwargs)
+class DefMenu(w.VBox):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._header = w.Box()
+        self._content = w.VBox()
+        self._footer = w.VBox()
+
         self._HANDLERS_SAVE_WORD = []
         self._HANDLERS_CANCEL_WORD = []
         self._EDIT_WORD = None
+
+        self.children = [self._header, self._content, self._footer]
+
+    @property
+    def header(self):
+        return self._header.children
+
+    @header.setter
+    def header(self, value):
+        if isinstance(value, list):
+            self._header.children = value
+        elif isinstance(value, w.Widget):
+            self._header.children = [value]
+
+    @property
+    def content(self):
+        return self._content.children
+
+    @content.setter
+    def content(self, value):
+        if isinstance(value, list):
+            self._content.children = value
+        elif isinstance(value, w.Widget):
+            self._content.children = [value]
+
+    @property
+    def footer(self):
+        return self._footer.children
+
+    @footer.setter
+    def footer(self, value):
+        if isinstance(value, list):
+            self._footer.children = value
+        elif isinstance(value, w.Widget):
+            self._footer.children = [value]
 
     def on_save_word(self, func):
         self._HANDLERS_SAVE_WORD.append(func)
@@ -32,4 +70,4 @@ class DefMenu(SubMenu):
         self._EDIT_WORD = word
 
     def reset(self):
-        warn("reset not defined")
+        raise NotImplementedError("reset() not implemented")

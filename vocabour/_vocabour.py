@@ -85,12 +85,10 @@ class Vocabour(w.VBox):
         return None
 
     def _save_glossary(self, glossary):
-        _verbs = [w for w in glossary if isinstance(w, types.Verb)]
-        _nouns = [w for w in glossary if isinstance(w, types.Noun)]
-        _pronouns = [w for w in glossary if isinstance(w, types.Pronoun)]
-
         return {
-            "nouns": [n.save_data() for n in _nouns],
-            "verbs": [v.save_data() for v in _verbs],
-            "pronouns": [p.save_data() for p in _pronouns],
+            "nouns": [w.save_data() for w in glossary if isinstance(w, types.Noun)],
+            "verbs": [w.save_data() for w in glossary if isinstance(w, types.Verb)],
+            "pronouns": [w.save_data() for w in glossary if isinstance(w, types.Pronoun)],
+            "adjectives": [w.save_data() for w in glossary if isinstance(w, types.Adjective)],
+            "adverbs": [w.save_data() for w in glossary if isinstance(w, types.Adverb)],
         }

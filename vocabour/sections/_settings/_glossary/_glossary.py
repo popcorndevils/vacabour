@@ -4,7 +4,7 @@ from ..._sub_menu import SubMenu
 
 class Glossary(SubMenu):
     def __init__(self, *args, **kwargs):
-        super().__init__(10, 4, *args, **kwargs)
+        super().__init__(10, 8, *args, **kwargs)
 
         self._definer = DefManager()
 
@@ -19,6 +19,7 @@ class Glossary(SubMenu):
         self._btn_delete = w.Button(
             description = "Delete", 
             layout = w.Layout(width = "auto"))
+
         self._word_display = w.Box(layout = w.Layout(height = "auto", width = "auto"))
         self._word_list = w.Select(layout = w.Layout(height = "auto", width = "auto"))
 

@@ -1,16 +1,11 @@
 import ipywidgets as w
-from ._def_menu import DefMenu
-from ._word_info import WordInfo
-from ....grammar import Conjugation
-from ....types import Verb
+from ._definer import Definer
+from .....grammar import Conjugation
+from .....types import Verb
 
-class DefVerb(DefMenu):
+class DefVerb(Definer):
     def __init__(self, *args, **kwargs):
-        super().__init__(7, 4, *args, **kwargs)
-        self._btn_save = w.Button(description = "Save", layout = w.Layout(width = "auto"))
-        self._btn_cancel = w.Button(description = "Cancel", layout = w.Layout(width = "auto"))
-
-        self._wordinfo = WordInfo()
+        super().__init__(*args, **kwargs)
 
         self._fld_imper_ya = w.Text(layout = w.Layout(width = "auto"))
         self._fld_imper_ti = w.Text(layout = w.Layout(width = "auto"))
@@ -19,29 +14,18 @@ class DefVerb(DefMenu):
         self._fld_imper_mi = w.Text(layout = w.Layout(width = "auto"))
         self._fld_imper_oni = w.Text(layout = w.Layout(width = "auto"))
 
-        self.header = self._wordinfo
-
-        self.content[0, 0] = w.Label("Я")
-        self.content[0, 1:] = self._fld_imper_ya
-        self.content[1, 0] = w.Label("Ты")
-        self.content[1, 1:] = self._fld_imper_ti
-        self.content[2, 0] = w.Label("Вы")
-        self.content[2, 1:] = self._fld_imper_vi
-        self.content[3, 0] = w.Label("Он/Она/Оно")
-        self.content[3, 1:] = self._fld_imper_on
-        self.content[4, 0] = w.Label("Мы")
-        self.content[4, 1:] = self._fld_imper_mi
-        self.content[5, 0] = w.Label("Они")
-        self.content[5, 1:] = self._fld_imper_oni
-
-        self.content[-1, :2] = self._btn_save
-        self.content[-1, 2:] = self._btn_cancel
+        self.add_options({
+            "Я": self._fld_imper_ya,
+            "Ты": self._fld_imper_ti,
+            "Вы": self._fld_imper_vi,
+            "Он/Она/Оно": self._fld_imper_on,
+            "Мы": self._fld_imper_mi,
+            "Они": self._fld_imper_oni,
+        })
 
         self.reset()
 
         self._wordinfo.observe_dictionary(self.handle_inf_update, "value")
-        self._btn_save.on_click(self.handle_save)
-        self._btn_cancel.on_click(lambda _: self.cancel_word())
 
     def open_word(self, word: Verb):
         super().open_word(word)

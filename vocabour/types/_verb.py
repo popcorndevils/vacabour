@@ -5,6 +5,7 @@ class Verb(Word):
         '''
         Keys used to store and retrieve verb data in glossary files.
         '''
+        IMPERFECT_INF = Word.FIELD_KEY.DICTIONARY_FORM
         IMPERFECT_YA = "imper_ya"
         IMPERFECT_TI = "imper_ti"
         IMPERFECT_VI = "imper_vi"
@@ -45,6 +46,14 @@ class Verb(Word):
         _out[Verb.FIELD_KEY.IMPERFECT_ON] = self.imper_on
         _out[Verb.FIELD_KEY.IMPERFECT_ONI] = self.imper_oni
         return _out
+
+    @property
+    def imper_inf(self):
+        return self.dictionary_form
+
+    @imper_inf.setter
+    def imper_inf(self, value):
+        self.dictionary_form = value
 
     @staticmethod
     def from_data(data):

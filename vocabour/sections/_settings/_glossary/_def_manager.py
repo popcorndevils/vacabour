@@ -1,13 +1,11 @@
 import ipywidgets as w
-from ._def_verb import DefVerb
-from ._def_pronoun import DefPronoun
+from ._definer import DefVerb, DefPronoun
 from ._def_menu import DefMenu
 from .... import types
 
 class DefManager(DefMenu):
     def __init__(self, *args, **kwargs):
-        super().__init__(1, 1, *args, **kwargs)
-        self._container = w.Box()
+        super().__init__(*args, **kwargs)
 
         self.TYPES = {
             "VERB": DefVerb(),
@@ -31,7 +29,7 @@ class DefManager(DefMenu):
         super().new_word()
 
     def handle_select(self, _):
-        self.content[0, 0] = self.TYPES[self._select.value]
+        self.content = self.TYPES[self._select.value]
 
     def open_word(self, word):
         if isinstance(word, types.Word):
@@ -47,7 +45,7 @@ class DefManager(DefMenu):
                 _definer = self.TYPES[_definer_type]
                 self._select.disabled = True
                 self._EDIT_WORD = word
-                self.content[0, 0] = _definer
+                self.content = _definer
                 _definer.open_word(word)
 
     def reset(self):

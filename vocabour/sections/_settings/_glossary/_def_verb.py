@@ -1,5 +1,4 @@
 import ipywidgets as w
-from pyparsing import Word
 from ._def_menu import DefMenu
 from ._word_info import WordInfo
 from ....grammar import Conjugation
@@ -7,13 +6,9 @@ from ....types import Verb
 
 class DefVerb(DefMenu):
     def __init__(self, *args, **kwargs):
-        super().__init__(7, 2, *args, **kwargs)
-        self._btn_save = w.Button(
-            description = "Save",
-            layout = w.Layout(width = "auto"))
-        self._btn_cancel = w.Button(
-            description = "Cancel",
-            layout = w.Layout(width = "auto"))
+        super().__init__(7, 4, *args, **kwargs)
+        self._btn_save = w.Button(description = "Save", layout = w.Layout(width = "auto"))
+        self._btn_cancel = w.Button(description = "Cancel", layout = w.Layout(width = "auto"))
 
         self._wordinfo = WordInfo()
 
@@ -27,20 +22,20 @@ class DefVerb(DefMenu):
         self.header = self._wordinfo
 
         self.content[0, 0] = w.Label("Я")
-        self.content[0, 1] = self._fld_imper_ya
+        self.content[0, 1:] = self._fld_imper_ya
         self.content[1, 0] = w.Label("Ты")
-        self.content[1, 1] = self._fld_imper_ti
+        self.content[1, 1:] = self._fld_imper_ti
         self.content[2, 0] = w.Label("Вы")
-        self.content[2, 1] = self._fld_imper_vi
+        self.content[2, 1:] = self._fld_imper_vi
         self.content[3, 0] = w.Label("Он/Она/Оно")
-        self.content[3, 1] = self._fld_imper_on
+        self.content[3, 1:] = self._fld_imper_on
         self.content[4, 0] = w.Label("Мы")
-        self.content[4, 1] = self._fld_imper_mi
+        self.content[4, 1:] = self._fld_imper_mi
         self.content[5, 0] = w.Label("Они")
-        self.content[5, 1] = self._fld_imper_oni
+        self.content[5, 1:] = self._fld_imper_oni
 
-        self.content[-1, 0] = self._btn_save
-        self.content[-1, 1] = self._btn_cancel
+        self.content[-1, :2] = self._btn_save
+        self.content[-1, 2:] = self._btn_cancel
 
         self.reset()
 

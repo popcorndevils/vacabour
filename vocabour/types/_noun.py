@@ -1,8 +1,6 @@
 from ._word import Word
 
 class Noun(Word):
-    type = Word.Type.NOUN
-
     def __init__(self):
         super().__init__()
         self._gender = None

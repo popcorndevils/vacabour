@@ -1,7 +1,5 @@
 import ipywidgets as w
-from .._def_menu import DefMenu
 from ._definer import Definer
-from ._word_info import WordInfo
 from .....types import Pronoun
 
 class DefPronoun(Definer):
@@ -89,7 +87,6 @@ class DefPronoun(Definer):
 
     def open_word(self, word: Pronoun):
         super().open_word(word)
-        self._wordinfo.open_word(word)
         self._fld_genative.value = word.genative if word.genative is not None else ""
         self._fld_dative.value = word.dative if word.dative is not None else ""
         self._fld_accusative.value = word.accusative if word.accusative is not None else ""

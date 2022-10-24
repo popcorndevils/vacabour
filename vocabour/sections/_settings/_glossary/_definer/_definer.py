@@ -20,6 +20,10 @@ class Definer(DefMenu):
         self._btn_save.on_click(self.handle_save)
         self._btn_cancel.on_click(lambda _: self.cancel_word())
 
+    def open_word(self, word):
+        super().open_word(word)
+        self._wordinfo.open_word(word)
+
     def add_options(self, options: dict[str, w.Widget]):
         _display_grid = w.GridspecLayout(2 + len(options), 4)
 

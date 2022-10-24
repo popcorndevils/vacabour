@@ -49,6 +49,7 @@ class Noun(Word):
         _out[Noun.FIELD_KEY.PLURAL_ACCUSATIVE] = self.plural_accusative
         _out[Noun.FIELD_KEY.PLURAL_INSTRUMENTAL] = self.plural_instrumental
         _out[Noun.FIELD_KEY.PLURAL_PREPOSITIONAL] = self.plural_prepositional
+        return _out
 
     @property
     def sing_nominative(self):

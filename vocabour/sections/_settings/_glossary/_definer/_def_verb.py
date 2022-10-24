@@ -29,7 +29,6 @@ class DefVerb(Definer):
 
     def open_word(self, word: Verb):
         super().open_word(word)
-        self._wordinfo.open_word(word)
         self._fld_imper_ya.value = word.imper_ya
         self._fld_imper_ti.value = word.imper_ti
         self._fld_imper_vi.value = word.imper_vi

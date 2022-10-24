@@ -46,57 +46,37 @@ class WordInfo:
     @property
     def dictionary(self):
         return self.fld_dictionary.value.lower()
-
     @dictionary.setter
     def dictionary(self, value):
-        if isinstance(value, str):
-            self.fld_dictionary.value = value.lower()
-        else:
-            self.fld_dictionary.value = ""
+        self.fld_dictionary.value = value if isinstance(value, str) else ""
 
     @property
     def definition(self):
         return self.fld_definition.value
-
     @definition.setter
     def definition(self, value):
-        if isinstance(value, str):
-            self.fld_definition.value = value
-        else:
-            self.fld_definition.value = ""
+        self.fld_definition.value = value if isinstance(value, str) else ""
 
     @property
     def sentence_form(self):
         return self._fld_sentence.value.lower()
-
     @sentence_form.setter
     def sentence_form(self, value):
-        if isinstance(value, str):
-            self._fld_sentence.value = value
-        else:
-            self._fld_sentence.value = ""
+        self._fld_sentence.value = value if isinstance(value, str) else ""
 
     @property
     def attempts(self):
         return self._fld_attempts.value
-
     @attempts.setter
     def attempts(self, value):
-        if value is not None:
-            self._fld_attempts.value = value
-        else:
-            self._fld_attempts.value = 0
+        self._fld_attempts.value = value if isinstance(value, int) else 0
 
     @property
     def correct(self):
         return self._fld_correct.value
-
     @correct.setter
     def correct(self, value):
-        if isinstance(value, int):
-            self._fld_correct.value = value
-        else:
-            self._fld_correct.value = 0
+        self._fld_correct.value = value if isinstance(value, int) else 0
 
     @property
     def tags(self):
@@ -104,7 +84,7 @@ class WordInfo:
 
     @tags.setter
     def tags(self, value):
-        if isinstance(value, int):
+        if isinstance(value, list):
             self._fld_tags.value = ", ".join(value)
 
     def open_word(self, word: Word):

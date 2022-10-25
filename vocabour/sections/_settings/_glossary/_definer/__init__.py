@@ -3,4 +3,4 @@ from ._def_adverb import DefAdverb
 from ._def_noun import DefNoun
 from ._def_pronoun import DefPronoun
 from ._def_verb import DefVerb
-from ._def_word import DefWord
+from ._def_generic import DefGeneric

@@ -13,7 +13,7 @@ class DefManager(DefMenu):
             "NOUN": define.DefNoun(),
             "PRONOUN": define.DefPronoun(),
             "VERB": define.DefVerb(),
-            "WORD": define.DefWord(),
+            "GENERIC": define.DefGeneric(),
         }
 
         self._select = w.Dropdown()
@@ -39,12 +39,18 @@ class DefManager(DefMenu):
         if isinstance(word, types.Word):
             _definer_type = None
 
-            if isinstance(word, types.Verb):
-                _definer_type = "VERB"
-            if isinstance(word, types.Pronoun):
-                _definer_type = "PRONOUN"
+            if isinstance(word, types.Adjective):
+                _definer_type = "ADJECTIVE"
+            if isinstance(word, types.Adverb):
+                _definer_type = "ADVERB"
+            if isinstance(word, types.Generic):
+                _definer_type = "GENERIC"
             if isinstance(word, types.Noun):
                 _definer_type = "NOUN"
+            if isinstance(word, types.Pronoun):
+                _definer_type = "PRONOUN"
+            if isinstance(word, types.Verb):
+                _definer_type = "VERB"
 
             if _definer_type is not None:
                 self._select.value = _definer_type

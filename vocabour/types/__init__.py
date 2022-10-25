@@ -4,3 +4,4 @@ from ._verb import Verb
 from ._pronoun import Pronoun
 from ._adjective import Adjective
 from ._adverb import Adverb
+from ._generic import Generic

@@ -46,3 +46,7 @@ class Word:
         for f in _data.values():
             if isinstance(f, str) and (len(re.findall(pattern, f)) > 0):
                 return True
+
+    @staticmethod
+    def from_data(data):
+        return Word(**data)

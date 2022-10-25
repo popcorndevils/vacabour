@@ -14,8 +14,9 @@ class SubMenu(w.VBox):
 
         self._header = w.Box()
         self._footer = w.Box()
+        self.side_content = w.Box()
         self.content = w.GridspecLayout(rows, cols)
-        self.children = [self._header, self.content, self._footer]
+        self.children = [self._header, w.HBox([self.content, self.side_content]), self._footer]
 
     @property
     def header(self):

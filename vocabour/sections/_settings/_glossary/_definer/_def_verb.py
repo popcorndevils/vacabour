@@ -1,9 +1,9 @@
 import ipywidgets as w
-from ._definer import Definer
+from ._base_definer import BaseDefiner
 from .....grammar import Conjugation
 from .....types import Verb
 
-class DefVerb(Definer):
+class DefVerb(BaseDefiner):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -14,18 +14,20 @@ class DefVerb(Definer):
         self._fld_imper_mi = w.Text(layout = w.Layout(width = "auto"))
         self._fld_imper_oni = w.Text(layout = w.Layout(width = "auto"))
 
-        self.add_options({
-            "Я": self._fld_imper_ya,
-            "Ты": self._fld_imper_ti,
-            "Вы": self._fld_imper_vi,
-            "Он/Она/Оно": self._fld_imper_on,
-            "Мы": self._fld_imper_mi,
-            "Они": self._fld_imper_oni,
+        self.add_sections({
+            "Imperfective": {
+                "Я": self._fld_imper_ya,
+                "Ты": self._fld_imper_ti,
+                "Вы": self._fld_imper_vi,
+                "Он/Она/Оно": self._fld_imper_on,
+                "Мы": self._fld_imper_mi,
+                "Они": self._fld_imper_oni,
+            }
         })
 
         self.reset()
 
-        self._wordinfo.observe_dictionary(self.handle_inf_update, "value")
+        self.observe_dictionary(self.handle_dictionary_update, "value")
 
     def open_word(self, word: Verb):
         super().open_word(word)
@@ -36,8 +38,8 @@ class DefVerb(Definer):
         self._fld_imper_mi.value = word.imper_mi
         self._fld_imper_oni.value = word.imper_oni
 
-    def handle_inf_update(self, _):
-        _base = self._wordinfo.dictionary
+    def handle_dictionary_update(self, _):
+        _base = self.dictionary
 
         _ya = Conjugation.ya(_base)
         _ti = Conjugation.ti(_base)
@@ -75,7 +77,7 @@ class DefVerb(Definer):
         self.save_word(_out)
 
     def reset(self):
-        self._wordinfo.reset()
+        super().reset()
         self._fld_imper_ya.placeholder = "ex: работаю"
         self._fld_imper_ti.placeholder = "ex: работаешь"
         self._fld_imper_vi.placeholder = "ex: работаете"

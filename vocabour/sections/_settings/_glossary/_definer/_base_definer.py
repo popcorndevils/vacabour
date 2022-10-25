@@ -2,52 +2,39 @@ import ipywidgets as w
 from .._def_menu import DefMenu
 from ._word_info import WordInfo
 
-class Definer(DefMenu):
+class BaseDefiner(DefMenu):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
         self._btn_save = w.Button(description = "Save", layout = w.Layout(width = "auto"))
         self._btn_cancel = w.Button(description = "Cancel", layout = w.Layout(width = "auto"))
 
         self._wordinfo = WordInfo()
+        self._addtional_options = w.Box()
 
-        self._grid = w.GridspecLayout(1, 2)
-
-        self._grid[0, 0] = self._btn_save
-        self._grid[0, 1] = self._btn_cancel
-
-        self.footer = [self._wordinfo.advanced_settings, self._grid]
+        _grid_btns = w.GridspecLayout(1, 2)
+        _grid_btns[0, 0] = self._btn_save
+        _grid_btns[0, 1] = self._btn_cancel
 
         self._btn_save.on_click(self.handle_save)
         self._btn_cancel.on_click(lambda _: self.cancel_word())
+
+        self.content = w.VBox([self._wordinfo.grid_default, self._addtional_options])
+        self.footer = [self._wordinfo.advanced_settings, _grid_btns]
+
+    @property
+    def dictionary(self):
+        return self._wordinfo.dictionary
+
+    def observe_dictionary(self, *args, **kwargs):
+        self._wordinfo.observe_dictionary(*args, **kwargs)
 
     def open_word(self, word):
         super().open_word(word)
         self._wordinfo.open_word(word)
 
-    def add_options(self, options: dict[str, w.Widget]):
-        _display_grid = w.GridspecLayout(2 + len(options), 4)
-
-        _display_grid[0, 0] = w.Label("Dictionary")
-        _display_grid[0, 1:] = self._wordinfo.fld_dictionary
-        _display_grid[1, 0] = w.Label("Definition")
-        _display_grid[1, 1:] = self._wordinfo.fld_definition
-
-        for i, k in enumerate(options.keys()):
-            _display_grid[2 + i, 0] = w.Label(k)
-            _display_grid[2 + i, 1:] = options[k]
-
-        self.content = _display_grid
-
     def add_sections(self, options: dict[str, dict[str, w.Widget]]):
-        _display_grid = w.GridspecLayout(2, 4)
-
-        _display_grid[0, 0] = w.Label("Dictionary")
-        _display_grid[0, 1:] = self._wordinfo.fld_dictionary
-        _display_grid[1, 0] = w.Label("Definition")
-        _display_grid[1, 1:] = self._wordinfo.fld_definition
-
         _sections = {}
-
         for k in options.keys():
             _tab = options[k]
             if not _tab.get("definer_option_subtabs", False):
@@ -80,7 +67,10 @@ class Definer(DefMenu):
         for i, k in enumerate(_sections.keys()):
             _display_tabs.set_title(i, k)
 
-        self.content = [_display_grid, _display_tabs]
+        self._addtional_options.children = [_display_tabs]
 
     def handle_save(self, _):
         raise NotImplementedError("handle_save() not implemented.")
+
+    def reset(self):
+        self._wordinfo.reset()

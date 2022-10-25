@@ -35,6 +35,8 @@ class Noun(Word):
         self.plural_instrumental = kwargs.get(Noun.FIELD_KEY.PLURAL_INSTRUMENTAL, None)
         self.plural_prepositional = kwargs.get(Noun.FIELD_KEY.PLURAL_PREPOSITIONAL, None)
 
+        self.list_prefix = "N"
+
     def save_data(self):
         _out = super().save_data()
         _out[Noun.FIELD_KEY.GENDER] = self.gender

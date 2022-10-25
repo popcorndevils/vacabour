@@ -75,17 +75,24 @@ class Vocabour(w.VBox):
             _glossary = []
             with open(DATA_FULL_PATH, "r") as file:
                 _data = json.loads(file.read())
+                for n in _data.get("generic", []):
+                    _glossary.append(types.Word.from_data(n))
                 for n in _data.get("nouns", []):
                     _glossary.append(types.Noun.from_data(n))
                 for v in _data.get("verbs", []):
                     _glossary.append(types.Verb.from_data(v))
                 for v in _data.get("pronouns", []):
                     _glossary.append(types.Pronoun.from_data(v))
+                for v in _data.get("adjectives", []):
+                    _glossary.append(types.Adjective.from_data(v))
+                for v in _data.get("adverbs", []):
+                    _glossary.append(types.Adverb.from_data(v))
             return _glossary
         return None
 
     def _save_glossary(self, glossary):
         return {
+            "generic": [w.save_data() for w in glossary if isinstance(w, types.Word)],
             "nouns": [w.save_data() for w in glossary if isinstance(w, types.Noun)],
             "verbs": [w.save_data() for w in glossary if isinstance(w, types.Verb)],
             "pronouns": [w.save_data() for w in glossary if isinstance(w, types.Pronoun)],

@@ -1,13 +1,14 @@
 import ipywidgets as w
-from ._definer import Definer
+from ._base_definer import BaseDefiner
 from .....types import Pronoun
 
-class DefPronoun(Definer):
+class DefPronoun(BaseDefiner):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
         self._grid = w.GridspecLayout(5, 4)
 
+        self._fld_nominative = w.Text(layout = w.Layout(width = "auto"), disabled = True)
         self._fld_genative = w.Text(layout = w.Layout(width = "auto"))
         self._fld_accusative = w.Text(layout = w.Layout(width = "auto"))
         self._fld_dative = w.Text(layout = w.Layout(width = "auto"))
@@ -40,6 +41,7 @@ class DefPronoun(Definer):
 
         self.add_sections({
             "Standard": {
+                "Nominative": self._fld_nominative,
                 "Genative": self._fld_genative,
                 "Accusative": self._fld_accusative,
                 "Dative": self._fld_dative,
@@ -83,7 +85,7 @@ class DefPronoun(Definer):
             }
         })
 
-        self.reset()
+        self.observe_dictionary(self.handle_dictionary_update, "value")
 
     def open_word(self, word: Pronoun):
         super().open_word(word)
@@ -152,8 +154,11 @@ class DefPronoun(Definer):
 
         self.save_word(_out)
 
+    def handle_dictionary_update(self, _):
+        self._fld_nominative.value = self.dictionary
+
     def reset(self):
-        self._wordinfo.reset()
+        super().reset()
         self._fld_genative.value = ""
         self._fld_dative.value = ""
         self._fld_accusative.value = ""

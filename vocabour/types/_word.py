@@ -1,3 +1,5 @@
+import re
+
 class Word:
     class FIELD_KEY:
         '''
@@ -17,6 +19,11 @@ class Word:
         self.correct = kwargs.get(Word.FIELD_KEY.CORRECT, 0)
         self.sentence_form = kwargs.get(Word.FIELD_KEY.SENTENCE_FORM, None)
         self.tags = kwargs.get(Word.FIELD_KEY.TAGS, []) 
+        self.list_prefix = "W"
+
+    @property
+    def list_view(self):
+        return f"[{self.list_prefix}] - {self.dictionary_form}"
 
     def __eq__(self, other):
         return self.dictionary_form.lower() == other.dictionary_form.lower()
@@ -33,3 +40,9 @@ class Word:
             Word.FIELD_KEY.SENTENCE_FORM: self.sentence_form,
             Word.FIELD_KEY.TAGS: self.tags,
         }
+
+    def match(self, pattern):
+        _data = self.save_data()
+        for f in _data.values():
+            if isinstance(f, str) and (len(re.findall(pattern, f)) > 0):
+                return True

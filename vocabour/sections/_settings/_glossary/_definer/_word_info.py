@@ -11,6 +11,13 @@ class WordInfo:
             placeholder = "ex: to work",
             layout = w.Layout(width = "auto"))
 
+        # default grids
+        self.grid_default = w.GridspecLayout(2, 4)
+        self.grid_default[0, 0] = w.Label("Dictionary")
+        self.grid_default[0, 1:] = self.fld_dictionary
+        self.grid_default[1, 0] = w.Label("Definition")
+        self.grid_default[1, 1:] = self.fld_definition
+
         # advanced settings
         self._fld_sentence = w.Text(layout = w.Layout(width = "auto"))
         self._fld_attempts = w.IntText(layout = w.Layout(width = "auto"))

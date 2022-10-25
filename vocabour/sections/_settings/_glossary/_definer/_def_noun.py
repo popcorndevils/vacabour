@@ -1,8 +1,8 @@
 import ipywidgets as w
-from ._definer import Definer
+from ._base_definer import BaseDefiner
 from .....types import Noun
 
-class DefNoun(Definer):
+class DefNoun(BaseDefiner):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
@@ -43,8 +43,6 @@ class DefNoun(Definer):
 
         self._wordinfo.observe_dictionary(self.handle_inf_update, "value")
 
-        self.reset()
-
     def open_word(self, word: Noun):
         super().open_word(word)
         self._fld_sing_nom.value = word.dictionary_form if word.dictionary_form is not None else ""
@@ -81,7 +79,7 @@ class DefNoun(Definer):
         self.save_word(_out)
 
     def reset(self):
-        self._wordinfo.reset()
+        super().reset()
         self._fld_sing_nom.value = ""
         self._fld_sing_gen.value = ""
         self._fld_sing_dat.value = ""

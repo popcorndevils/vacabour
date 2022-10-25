@@ -1,5 +1,5 @@
 import ipywidgets as w
-from ._definer import DefVerb, DefPronoun, DefNoun
+from . import _definer as define
 from ._def_menu import DefMenu
 from .... import types
 
@@ -8,9 +8,12 @@ class DefManager(DefMenu):
         super().__init__(*args, **kwargs)
 
         self.TYPES = {
-            "VERB": DefVerb(),
-            "PRONOUN": DefPronoun(),
-            "NOUN": DefNoun(),
+            "ADJECTIVE": define.DefAdjective(),
+            "ADVERB": define.DefAdverb(),
+            "NOUN": define.DefNoun(),
+            "PRONOUN": define.DefPronoun(),
+            "VERB": define.DefVerb(),
+            "WORD": define.DefWord(),
         }
 
         self._select = w.Dropdown()

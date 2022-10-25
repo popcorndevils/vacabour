@@ -1,2 +1,2 @@
 from ._settings import Glossary
-from ._sub_menu import SubMenu
+from ._base_menu import BaseMenu

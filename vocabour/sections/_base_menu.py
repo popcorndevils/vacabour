@@ -3,8 +3,8 @@ import ipywidgets as w
 from ..types import Word
 from typing import Callable
 
-class SubMenu(w.VBox):
-    def __init__(self, rows, cols, *args, **kwargs):
+class BaseMenu(w.HBox):
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._HANDLERS_EXIT = []
         self._HANDLERS_SAVE = []
@@ -14,14 +14,18 @@ class SubMenu(w.VBox):
 
         self._header = w.Box()
         self._footer = w.Box()
-        self.side_content = w.Box()
-        self.content = w.GridspecLayout(rows, cols)
-        self.children = [self._header, w.HBox([self.content, self.side_content]), self._footer]
+        self._content = w.Box()
+        self.children = [
+            w.VBox([
+                self._header,
+                self._content,
+                self._footer
+            ])
+        ]
 
     @property
     def header(self):
         return self._header.children
-
     @header.setter
     def header(self, value):
         if isinstance(value, list):
@@ -32,7 +36,6 @@ class SubMenu(w.VBox):
     @property
     def footer(self):
         return self._footer.children
-
     @footer.setter
     def footer(self, value):
         if isinstance(value, list):
@@ -40,7 +43,17 @@ class SubMenu(w.VBox):
         elif isinstance(value, w.Widget):
             self._footer.children = [value]
 
-    def on_exit(self, func: Callable[[SubMenu], None]) -> None:
+    @property
+    def content(self):
+        return self._content.children
+    @content.setter
+    def content(self, value):
+        if isinstance(value, list):
+            self._content.children = value
+        elif isinstance(value, w.Widget):
+            self._content.children = [value]
+
+    def on_exit(self, func: Callable[[BaseMenu], None]) -> None:
         '''
         Register function as callback when submenu item closes.  
         Expects handler(sender: SubMenu) -> None

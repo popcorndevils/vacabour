@@ -1,10 +1,10 @@
 import ipywidgets as w
 from ._def_manager import DefManager
-from ..._sub_menu import SubMenu
+from ..._base_menu import BaseMenu
 
-class Glossary(SubMenu):
+class Glossary(BaseMenu):
     def __init__(self, *args, **kwargs):
-        super().__init__(1, 1, *args, **kwargs)
+        super().__init__(*args, **kwargs)
         self.DISPLAY_GLOSSARY = None
         self._definer = DefManager()
 
@@ -31,16 +31,8 @@ class Glossary(SubMenu):
 
         # create layout
         self.header = self._btn_main_menu
-
-        # self.content[0, :2] = self._fld_search
-        # self.content[1, 0] = self._btn_new
-        # self.content[1, 1] = self._btn_delete
-        # self.content[2:, :2] = self._word_list
-
-        self.content[0, 0] = w.VBox([self._fld_search, _btns_grid, self._word_list])
-
-        self.side_content.children = [self._word_display]
-        # self.content[0:, 2:] = self._word_display
+        self.content = w.VBox([self._fld_search, _btns_grid, self._word_list])
+        self.children = [*self.children, self._word_display]
 
         # events
         self._definer.on_save_word(self.handle_save_word)

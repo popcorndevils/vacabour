@@ -1,11 +1,11 @@
 import ipywidgets as w
 import random as r
 import time as t
-from .._sub_menu import SubMenu
+from .._base_menu import BaseMenu
 
-class Definitions(SubMenu):
+class Definitions(BaseMenu):
     def __init__(self):
-        super().__init__(3, 2, layout = w.Layout(max_width = "600px"))
+        super().__init__()
         self.CURRENT_ANSWER = None
         self.POSSIBLE_QUESTIONS = []
         self.attempts = 0
@@ -38,10 +38,14 @@ class Definitions(SubMenu):
             bottom_right = self._btn_ans_4,
         )
 
+        _game = w.GridspecLayout(3, 2)
+        _game[0, 1] = self._display_stats
+        _game[1, 0:] = self._display_word
+        _game[2, 0:] = self._grid_btns
+
         self.header = self._btn_main_menu
-        self.content[0, 1] = self._display_stats
-        self.content[1, 0:] = self._display_word
-        self.content[2, 0:] = self._grid_btns
+
+        self.content = _game
 
         self._btn_main_menu.on_click(self.handle_main_menu)
 

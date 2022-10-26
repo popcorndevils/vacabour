@@ -88,11 +88,13 @@ class WordInfo:
     @property
     def tags(self):
         return [t.strip() for t in self._fld_tags.value.lower().replace("\n", ",").split(",")]
-
     @tags.setter
     def tags(self, value):
         if isinstance(value, list):
             self._fld_tags.value = ", ".join(value)
+
+    def on_submit(self, *args, **kwargs):
+        self.fld_definition.on_submit(*args, **kwargs)
 
     def open_word(self, word: Word):
         self.dictionary = word.dictionary_form

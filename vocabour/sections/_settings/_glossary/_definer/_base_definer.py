@@ -19,6 +19,8 @@ class BaseDefiner(DefMenu):
         self._btn_save.on_click(self.handle_save)
         self._btn_cancel.on_click(lambda _: self.cancel_word())
 
+        self._wordinfo.on_submit(self.handle_save)
+
         self.content = w.VBox([self._wordinfo.grid_default, self._addtional_options])
         self.footer = [self._wordinfo.advanced_settings, _grid_btns]
 

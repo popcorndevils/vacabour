@@ -3,6 +3,7 @@ from ._word import Word
 class Generic(Word):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.list_prefix = "G"
 
     def save_data(self):
         _out = super().save_data()

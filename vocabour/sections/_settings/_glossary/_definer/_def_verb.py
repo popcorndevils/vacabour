@@ -56,23 +56,14 @@ class DefVerb(BaseDefiner):
         self._fld_imper_oni.placeholder = _oni if _oni != "" else "ex: работают"
 
     def handle_save(self, _):
-        _out = Verb.from_data(self._wordinfo.save_data())
+        _out = Verb.from_data(self._wordinfo.save_data()) 
 
-        _base = _out.dictionary_form
-
-        _ya_val = self._fld_imper_ya.value.lower()
-        _ti_val = self._fld_imper_ti.value.lower()
-        _vi_val = self._fld_imper_vi.value.lower()
-        _mi_val = self._fld_imper_mi.value.lower()
-        _on_val = self._fld_imper_on.value.lower()
-        _oni_val = self._fld_imper_oni.value.lower()
-
-        _out.imper_ya = _ya_val if _ya_val != "" else Conjugation.ya(_base)
-        _out.imper_ti = _ti_val if _ti_val != "" else Conjugation.ti(_base)
-        _out.imper_vi = _vi_val if _vi_val != "" else Conjugation.vi(_base)
-        _out.imper_mi = _mi_val if _mi_val != "" else Conjugation.mi(_base)
-        _out.imper_on = _on_val if _on_val != "" else Conjugation.on(_base)
-        _out.imper_oni = _oni_val if _oni_val != "" else Conjugation.oni(_base)
+        _out.imper_ya = self._fld_imper_ya.value.lower()
+        _out.imper_ti = self._fld_imper_ti.value.lower()
+        _out.imper_vi = self._fld_imper_vi.value.lower()
+        _out.imper_mi = self._fld_imper_mi.value.lower()
+        _out.imper_on = self._fld_imper_on.value.lower()
+        _out.imper_oni = self._fld_imper_oni.value.lower()
 
         self.save_word(_out)
 

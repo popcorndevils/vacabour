@@ -59,7 +59,7 @@ class Adjective(Word):
         self.plural_instrumental = kwargs.get(Adjective.FIELD_KEY.PLURAL_INSTRUMENTAL, None)
         self.plural_prepositional = kwargs.get(Adjective.FIELD_KEY.PLURAL_PREPOSITIONAL, None)
 
-        self.list_prefix = "AV"
+        self.list_prefix = "AD"
 
     def save_data(self):
         _out = super().save_data()

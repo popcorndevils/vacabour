@@ -1,7 +1,7 @@
 import ipywidgets as w
 from . import _definer as define
 from ._def_menu import DefMenu
-from .... import types
+from vocabour import types
 
 class DefManager(DefMenu):
     def __init__(self, *args, **kwargs):
@@ -11,6 +11,7 @@ class DefManager(DefMenu):
             "ADJECTIVE": define.DefAdjective(),
             "ADVERB": define.DefAdverb(),
             "NOUN": define.DefNoun(),
+            "PHRASE": define.DefPhrase(),
             "PRONOUN": define.DefPronoun(),
             "VERB": define.DefVerb(),
             "GENERIC": define.DefGeneric(),
@@ -47,6 +48,8 @@ class DefManager(DefMenu):
                 _definer_type = "GENERIC"
             if isinstance(word, types.Noun):
                 _definer_type = "NOUN"
+            if isinstance(word, types.Phrase):
+                _definer_type = "PHRASE"
             if isinstance(word, types.Pronoun):
                 _definer_type = "PRONOUN"
             if isinstance(word, types.Verb):

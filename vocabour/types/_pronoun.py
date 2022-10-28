@@ -68,7 +68,7 @@ class Pronoun(Word):
         self.poss_plur_ins = kwargs.get(Pronoun.FIELD_KEY.POSS_PLUR_INS, None)
         self.poss_plur_pre = kwargs.get(Pronoun.FIELD_KEY.POSS_PLUR_PRE, None)
 
-        self.list_prefix = "P"
+        self.list_prefix = "PR"
 
     def save_data(self):
         _out = super().save_data()

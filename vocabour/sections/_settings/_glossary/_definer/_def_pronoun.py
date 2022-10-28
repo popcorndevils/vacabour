@@ -4,7 +4,7 @@ from .....types import Pronoun
 
 class DefPronoun(BaseDefiner):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(Pronoun, *args, **kwargs)
 
         self._grid = w.GridspecLayout(5, 4)
 
@@ -120,7 +120,7 @@ class DefPronoun(BaseDefiner):
         self._fld_poss_plur_pre.value = word.poss_plur_pre if word.poss_plur_pre is not None else ""
 
     def handle_save(self, _):
-        _out = Pronoun.from_data(self._wordinfo.save_data())
+        _out = Pronoun.from_data(self.base_data())
 
         _out.genative = self._fld_genative.value.lower()
         _out.dative = self._fld_dative.value.lower()

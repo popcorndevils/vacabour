@@ -5,7 +5,7 @@ from .....types import Verb
 
 class DefVerb(BaseDefiner):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(Verb, *args, **kwargs)
 
         self._fld_imper_ya = w.Text(layout = w.Layout(width = "auto"))
         self._fld_imper_ti = w.Text(layout = w.Layout(width = "auto"))
@@ -56,7 +56,7 @@ class DefVerb(BaseDefiner):
         self._fld_imper_oni.placeholder = _oni if _oni != "" else "ex: работают"
 
     def handle_save(self, _):
-        _out = Verb.from_data(self._wordinfo.save_data()) 
+        _out = Verb.from_data(self.base_data()) 
 
         _out.imper_ya = self._fld_imper_ya.value.lower()
         _out.imper_ti = self._fld_imper_ti.value.lower()

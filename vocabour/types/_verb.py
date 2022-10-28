@@ -37,7 +37,7 @@ class Verb(Word):
         self.per_on = kwargs.get(Verb.FIELD_KEY.PERFECT_ON, None)
         self.per_oni = kwargs.get(Verb.FIELD_KEY.PERFECT_ONI, None)
 
-        self.list_prefix = "V"
+        self.list_prefix = "VE"
 
     def save_data(self):
         _out = super().save_data()

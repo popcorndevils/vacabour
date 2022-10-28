@@ -1,10 +1,12 @@
 import ipywidgets as w
 from .._def_menu import DefMenu
 from ._word_info import WordInfo
+from vocabour.types import Generic
 
 class BaseDefiner(DefMenu):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, child_type = Generic, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.CHILD_TYPE = child_type
 
         self._btn_save = w.Button(description = "Save", layout = w.Layout(width = "auto"))
         self._btn_cancel = w.Button(description = "Cancel", layout = w.Layout(width = "auto"))
@@ -30,6 +32,9 @@ class BaseDefiner(DefMenu):
 
     def observe_dictionary(self, *args, **kwargs):
         self._wordinfo.observe_dictionary(*args, **kwargs)
+
+    def base_data(self):
+        return self._wordinfo.save_data()
 
     def open_word(self, word):
         super().open_word(word)
@@ -72,7 +77,8 @@ class BaseDefiner(DefMenu):
         self._addtional_options.children = [_display_tabs]
 
     def handle_save(self, _):
-        raise NotImplementedError("handle_save() not implemented.")
+        _out = self.CHILD_TYPE.from_data(self.base_data())
+        self.save_word(_out)
 
     def reset(self):
         self._wordinfo.reset()

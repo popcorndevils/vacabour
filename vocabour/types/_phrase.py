@@ -1,9 +1,9 @@
 from ._word import Word
 
-class Generic(Word):
+class Phrase(Word):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.list_prefix = "GE"
+        self.list_prefix = "PH"
 
     def save_data(self):
         _out = super().save_data()
@@ -11,4 +11,4 @@ class Generic(Word):
 
     @staticmethod
     def from_data(data):
-        return Generic(**data)
+        return Phrase(**data)

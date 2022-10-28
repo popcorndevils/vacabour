@@ -19,7 +19,7 @@ class Word:
         self.correct = kwargs.get(Word.FIELD_KEY.CORRECT, 0)
         self.sentence_form = kwargs.get(Word.FIELD_KEY.SENTENCE_FORM, None)
         self.tags = kwargs.get(Word.FIELD_KEY.TAGS, []) 
-        self.list_prefix = "W"
+        self.list_prefix = "WO"
 
     @property
     def list_view(self):

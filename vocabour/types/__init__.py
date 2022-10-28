@@ -5,3 +5,4 @@ from ._pronoun import Pronoun
 from ._adjective import Adjective
 from ._adverb import Adverb
 from ._generic import Generic
+from ._phrase import Phrase

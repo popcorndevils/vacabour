@@ -4,7 +4,7 @@ from .....types import Noun
 
 class DefNoun(BaseDefiner):
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+        super().__init__(Noun, *args, **kwargs)
 
         self._grid = w.GridspecLayout(5, 4)
 
@@ -62,7 +62,7 @@ class DefNoun(BaseDefiner):
         self._fld_sing_nom.value = self._wordinfo.dictionary
 
     def handle_save(self, _):
-        _out = Noun.from_data(self._wordinfo.save_data())
+        _out = Noun.from_data(self.base_data())
 
         _out.sing_genative = self._fld_sing_gen.value.lower()
         _out.sing_dative = self._fld_sing_dat.value.lower()

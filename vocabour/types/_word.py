@@ -44,10 +44,10 @@ class Word:
     def match(self, pattern):
         _data = self.save_data()
         for t in self.tags:
-            if isinstance(t, str) and (len(re.findall(pattern, t)) > 0):
+            if isinstance(t, str) and (len(re.findall(pattern, t, re.IGNORECASE)) > 0):
                 return True
         for f in _data.values():
-            if isinstance(f, str) and (len(re.findall(pattern, f)) > 0):
+            if isinstance(f, str) and (len(re.findall(pattern, f, re.IGNORECASE)) > 0):
                 return True
 
     @staticmethod

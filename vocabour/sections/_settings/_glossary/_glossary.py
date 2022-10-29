@@ -1,18 +1,11 @@
 import ipywidgets as w
 from ._def_manager import DefManager
-from ..._base_menu import BaseMenu
+from ..._glossary_handler import GlossaryHandler
 
-class Glossary(BaseMenu):
+class Glossary(GlossaryHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.DISPLAY_GLOSSARY = None
         self._definer = DefManager()
-
-        # child widgets
-        self._btn_main_menu = w.Button(
-            description = "Main Menu")
-
-        self._fld_search = w.Text(placeholder = "Search:", layout = w.Layout(width = "auto"))
 
         self._btn_new = w.Button(
             description = "New",
@@ -22,17 +15,13 @@ class Glossary(BaseMenu):
             description = "Delete", 
             layout = w.Layout(width = "auto"))
 
-        self._word_display = w.Box(layout = w.Layout(height = "auto", width = "auto"))
-        self._word_list = w.Select(layout = w.Layout(height = "auto", width = "auto"))
-
         _btns_grid = w.GridspecLayout(1, 2)
         _btns_grid[0, 0] = self._btn_new
         _btns_grid[0, 1] = self._btn_delete
 
         # create layout
-        self.header = self._btn_main_menu
+        self.options_display.children = [_btns_grid]
         self.content = w.VBox([self._fld_search, _btns_grid, self._word_list])
-        self.children = [*self.children, self._word_display]
 
         # events
         self._definer.on_save_word(self.handle_save_word)
@@ -40,8 +29,6 @@ class Glossary(BaseMenu):
         self._btn_main_menu.on_click(self.handle_main_menu)
         self._btn_new.on_click(self.handle_new)
         self._btn_delete.on_click(self.handle_delete)
-        self._word_list.observe(self.handle_select_word, "index")
-        self._fld_search.observe(self.handle_search_text, "value")
 
     def load(self, glossary):
         self.IGNORE_EVENTS = True
@@ -55,12 +42,12 @@ class Glossary(BaseMenu):
         self.IGNORE_EVENTS = False
 
     def handle_main_menu(self, _):
-        self._word_display.children = []
+        self.content_display.children = []
         self.save()
         self.exit()
 
     def handle_new(self, _):
-        self._word_display.children = [self._definer]
+        self.content_display.children = [self._definer]
         self._definer.new_word()
 
     def handle_delete(self, _):
@@ -75,26 +62,15 @@ class Glossary(BaseMenu):
     def handle_save_word(self, word, original = None):
         if original:
             self.LOADED_GLOSSARY.remove(original)
-        self._word_display.children = []
+        self.content_display.children = []
         self.LOADED_GLOSSARY.append(word)
         self.handle_search_text()
 
     def handle_cancel(self):
         self._word_list.index = None
-        self._word_display.children = []
+        self.content_display.children = []
 
     def handle_select_word(self, _):
         if self._word_list.index is not None and not self.IGNORE_EVENTS:
             self._definer.open_word(self.DISPLAY_GLOSSARY[self._word_list.index])
-            self._word_display.children = [self._definer]
-
-    def handle_search_text(self, _ = None):
-        self.DISPLAY_GLOSSARY = [w for w in self.LOADED_GLOSSARY if w.match(self._fld_search.value)]
-        self._sort_glossary()
-
-    def _sort_glossary(self):
-        self.IGNORE_EVENTS = True
-        self.DISPLAY_GLOSSARY = sorted(self.DISPLAY_GLOSSARY)
-        self._word_list.options = [w.list_view for w in self.DISPLAY_GLOSSARY]
-        self._word_list.index = None
-        self.IGNORE_EVENTS = False
+            self.content_display.children = [self._definer]

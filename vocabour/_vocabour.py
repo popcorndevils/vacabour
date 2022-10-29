@@ -9,7 +9,7 @@ class Vocabour(w.VBox):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._glossary = Glossary()
-        self._drill_defs = drills.Definitions()
+        self._drill_defs = drills.GameBrowser()
 
         # sections
         self._btn_glossary = w.Button(description = "Glossary")
@@ -64,7 +64,7 @@ class Vocabour(w.VBox):
         self._reset()
 
     def handle_open_drill_defs(self, _):
-        self._drill_defs.load_data(self._get_glossary())
+        self._drill_defs.load(self._get_glossary())
         self.children = [self._drill_defs]
 
     def _reset(self):

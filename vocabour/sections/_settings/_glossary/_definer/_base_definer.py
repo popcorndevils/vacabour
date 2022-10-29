@@ -13,6 +13,7 @@ class BaseDefiner(DefMenu):
 
         self._wordinfo = WordInfo()
         self._addtional_options = w.Box()
+        self.optional_section = w.Box()
 
         _grid_btns = w.GridspecLayout(1, 2)
         _grid_btns[0, 0] = self._btn_save
@@ -23,7 +24,7 @@ class BaseDefiner(DefMenu):
 
         self._wordinfo.on_submit(self.handle_save)
 
-        self.content = w.VBox([self._wordinfo.grid_default, self._addtional_options])
+        self.content = w.VBox([self._wordinfo.grid_default, self.optional_section, self._addtional_options])
         self.footer = [self._wordinfo.advanced_settings, _grid_btns]
 
     @property

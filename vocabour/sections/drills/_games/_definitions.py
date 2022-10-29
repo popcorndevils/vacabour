@@ -1,7 +1,7 @@
 import ipywidgets as w
 import random as r
 import time as t
-from .._base_menu import BaseMenu
+from ..._base_menu import BaseMenu
 
 class Definitions(BaseMenu):
     def __init__(self):
@@ -11,7 +11,6 @@ class Definitions(BaseMenu):
         self.attempts = 0
         self.correct = 0
 
-        self._btn_main_menu = w.Button(description = "Main Menu")
         self._display_word = w.HTML()
         self._display_stats = w.HTML()
 
@@ -43,11 +42,7 @@ class Definitions(BaseMenu):
         _game[1, 0:] = self._display_word
         _game[2, 0:] = self._grid_btns
 
-        self.header = self._btn_main_menu
-
         self.content = _game
-
-        self._btn_main_menu.on_click(self.handle_main_menu)
 
         for b in self.answer_buttons:
             b.on_click(self.handle_answer)

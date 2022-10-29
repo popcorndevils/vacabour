@@ -1,14 +1,23 @@
 import ipywidgets as w
 from ._base_definer import BaseDefiner
 from .....types import Noun
+from .....grammar import Nominative
+from .....grammar._cyrilic import Genders
 
 class DefNoun(BaseDefiner):
     def __init__(self, *args, **kwargs):
         super().__init__(Noun, *args, **kwargs)
+        self.GENDERS = [
+            Genders.MASCULINE,
+            Genders.FEMININE,
+            Genders.NEUTER,
+        ]
 
         self._grid = w.GridspecLayout(5, 4)
+        self._grid_g = w.GridspecLayout(1, 4)
 
-        # self._fld_sing_nom = w.Text(layout = w.Layout(width = "auto"))
+        self._gender = w.Dropdown(options = [g for g in self.GENDERS])
+
         self._fld_sing_nom = w.Text(layout = w.Layout(width = "auto"), disabled = True)
         self._fld_sing_gen = w.Text(layout = w.Layout(width = "auto"))
         self._fld_sing_dat = w.Text(layout = w.Layout(width = "auto"))
@@ -41,10 +50,15 @@ class DefNoun(BaseDefiner):
             },  
         })
 
+        self._grid_g[0, 0] = w.Label("Gender")
+        self._grid_g[0, 1:] = self._gender
+
+        self.optional_section.children = [self._grid_g]
         self._wordinfo.observe_dictionary(self.handle_inf_update, "value")
 
     def open_word(self, word: Noun):
         super().open_word(word)
+        self._gender.value = word.gender if word.gender is not None else Nominative.gender(word)
         self._fld_sing_nom.value = word.dictionary_form if word.dictionary_form is not None else ""
         self._fld_sing_gen.value = word.sing_genative if word.sing_genative is not None else ""
         self._fld_sing_dat.value = word.sing_dative if word.sing_dative is not None else ""
@@ -64,6 +78,7 @@ class DefNoun(BaseDefiner):
     def handle_save(self, _):
         _out = Noun.from_data(self.base_data())
 
+        _out.gender = self._gender.value
         _out.sing_genative = self._fld_sing_gen.value.lower()
         _out.sing_dative = self._fld_sing_dat.value.lower()
         _out.sing_accusative = self._fld_sing_acc.value.lower()

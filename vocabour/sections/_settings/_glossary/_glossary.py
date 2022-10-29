@@ -15,13 +15,12 @@ class Glossary(GlossaryHandler):
             description = "Delete", 
             layout = w.Layout(width = "auto"))
 
-        _btns_grid = w.GridspecLayout(1, 2)
+        _btns_grid = w.GridspecLayout(1, 2, layout = w.Layout(width = "100%"))
         _btns_grid[0, 0] = self._btn_new
         _btns_grid[0, 1] = self._btn_delete
 
         # create layout
         self.options_display.children = [_btns_grid]
-        self.content = w.VBox([self._fld_search, _btns_grid, self._word_list])
 
         # events
         self._definer.on_save_word(self.handle_save_word)

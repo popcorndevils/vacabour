@@ -1,4 +1,5 @@
 from __future__ import annotations
+from ..grammar._cyrilic._groups import Groups
 from ._word import Word
 
 class Adjective(Word):
@@ -18,7 +19,6 @@ class Adjective(Word):
             self.pl_nom,
             self.sg_pre_mas,
             self.sg_pre_fem,
-            self.sg_acc_neu,
         ]
 
     @staticmethod
@@ -27,14 +27,14 @@ class Adjective(Word):
 
     @property
     def sg_nom_mas(self):
-        return self.dictionary_form
+        return self.dictionary_form.lower()
 
     @property
     def sg_nom_fem(self):
         return Adjective.get_sg_nom_fem(self)
     @staticmethod
     def get_sg_nom_fem(word: Adjective):
-        _base: str = word.dictionary_form
+        _base: str = word.sg_nom_mas
         return _base[:-2] + "ая" if not _base.endswith("ний") else _base[:-2] + "яя"
 
     @property
@@ -42,7 +42,14 @@ class Adjective(Word):
         return Adjective.get_sg_nom_neu(self)
     @staticmethod
     def get_sg_nom_neu(word: Adjective):
-        return None
+        _base: str = word.sg_nom_mas
+        if _base.endswith("ой"):
+            return _base[:-2] + "ое"
+        elif _base.endswith("ний"):
+            return _base[:2] + "ее"
+        elif _base[-3] in Groups.sizzlers:
+            return _base[:2] + "ее"
+        return _base[:-2] + "ое"
 
     @property
     def sg_gen_mas(self):
@@ -129,32 +136,37 @@ class Adjective(Word):
         return None
 
     @property
+    def sg_pre_neu(self):
+        return Adjective.get_sg_pre_mas(self)
+    @property
     def sg_pre_mas(self):
         return Adjective.get_sg_pre_mas(self)
     @staticmethod
     def get_sg_pre_mas(word: Adjective):
-        return None
+        _base: str = word.sg_nom_mas
+        if _base.endswith("ний") or _base[-3] in Groups.sizzlers:
+            return _base[:2] + "ем"
+        return _base[:-2] + "ом"
 
     @property
     def sg_pre_fem(self):
         return Adjective.get_sg_pre_fem(self)
     @staticmethod
     def get_sg_pre_fem(word: Adjective):
-        return None
-
-    @property
-    def sg_pre_neu(self):
-        return Adjective.get_sg_pre_neu(self)
-    @staticmethod
-    def get_sg_pre_neu(word: Adjective):
-        return None
+        _base: str = word.sg_nom_mas
+        if _base.endswith("ний") or _base[-3] in Groups.sizzlers:
+            return _base[:2] + "ей"
+        return _base[:-2] + "ой"
 
     @property
     def pl_nom(self):
         return Adjective.get_pl_nom(self)
     @staticmethod
     def get_pl_nom(word: Adjective):
-        return None
+        _base: str = word.sg_nom_mas
+        if _base.endswith("ний") or _base[-3] in Groups.alcoholic or _base[-3] in Groups.sizzlers:
+            return _base[:2] + "ие"
+        return _base[:-2] + "ые"
 
     @property
     def pl_gen(self):

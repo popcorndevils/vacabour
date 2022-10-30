@@ -58,19 +58,19 @@ class DefNoun(BaseDefiner):
 
     def open_word(self, word: Noun):
         super().open_word(word)
-        self._gender.value = word.gender if word.gender is not None else Nominative.gender(word)
+        self._gender.value = word.gender
         self._fld_sing_nom.value = word.dictionary_form if word.dictionary_form is not None else ""
-        self._fld_sing_gen.value = word.sing_genative if word.sing_genative is not None else ""
-        self._fld_sing_dat.value = word.sing_dative if word.sing_dative is not None else ""
-        self._fld_sing_acc.value = word.sing_accusative if word.sing_accusative is not None else ""
-        self._fld_sing_ins.value = word.sing_instrumental if word.sing_instrumental is not None else ""
-        self._fld_sing_pre.value = word.sing_prepositional if word.sing_prepositional is not None else ""
-        self._fld_plur_nom.value = word.plural_nominative if word.plural_nominative is not None else ""
-        self._fld_plur_gen.value = word.plural_genative if word.plural_genative is not None else ""
-        self._fld_plur_dat.value = word.plural_dative if word.plural_dative is not None else ""
-        self._fld_plur_acc.value = word.plural_accusative if word.plural_accusative is not None else ""
-        self._fld_plur_ins.value = word.plural_instrumental if word.plural_instrumental is not None else ""
-        self._fld_plur_pre.value = word.plural_prepositional if word.plural_prepositional is not None else ""
+        self._fld_sing_gen.value = word.sg_gen if word.sg_gen is not None else ""
+        self._fld_sing_dat.value = word.sg_dat if word.sg_dat is not None else ""
+        self._fld_sing_acc.value = word.sg_acc if word.sg_acc is not None else ""
+        self._fld_sing_ins.value = word.sg_ins if word.sg_ins is not None else ""
+        self._fld_sing_pre.value = word.sg_pre if word.sg_pre is not None else ""
+        self._fld_plur_nom.value = word.pl_nom if word.pl_nom is not None else ""
+        self._fld_plur_gen.value = word.pl_gen if word.pl_gen is not None else ""
+        self._fld_plur_dat.value = word.pl_dat if word.pl_dat is not None else ""
+        self._fld_plur_acc.value = word.pl_acc if word.pl_acc is not None else ""
+        self._fld_plur_ins.value = word.pl_ins if word.pl_ins is not None else ""
+        self._fld_plur_pre.value = word.pl_pre if word.pl_pre is not None else ""
 
     def handle_inf_update(self, _):
         self._fld_sing_nom.value = self._wordinfo.dictionary
@@ -79,17 +79,17 @@ class DefNoun(BaseDefiner):
         _out = Noun.from_data(self.base_data())
 
         _out.gender = self._gender.value
-        _out.sing_genative = self._fld_sing_gen.value.lower()
-        _out.sing_dative = self._fld_sing_dat.value.lower()
-        _out.sing_accusative = self._fld_sing_acc.value.lower()
-        _out.sing_instrumental = self._fld_sing_ins.value.lower()
-        _out.sing_prepositional = self._fld_sing_pre.value.lower()
-        _out.plural_nominative = self._fld_plur_nom.value.lower()
-        _out.plural_genative = self._fld_plur_gen.value.lower()
-        _out.plural_dative = self._fld_plur_dat.value.lower()
-        _out.plural_accusative = self._fld_plur_acc.value.lower()
-        _out.plural_instrumental = self._fld_plur_ins.value.lower()
-        _out.plural_prepositional = self._fld_plur_pre.value.lower()
+        _out.sg_gen = self._fld_sing_gen.value.lower()
+        _out.sg_dat = self._fld_sing_dat.value.lower()
+        _out.sg_acc = self._fld_sing_acc.value.lower()
+        _out.sg_ins = self._fld_sing_ins.value.lower()
+        _out.sg_pre = self._fld_sing_pre.value.lower()
+        _out.pl_nom = self._fld_plur_nom.value.lower()
+        _out.pl_gen = self._fld_plur_gen.value.lower()
+        _out.pl_dat = self._fld_plur_dat.value.lower()
+        _out.pl_acc = self._fld_plur_acc.value.lower()
+        _out.pl_ins = self._fld_plur_ins.value.lower()
+        _out.pl_pre = self._fld_plur_pre.value.lower()
 
         self.save_word(_out)
 

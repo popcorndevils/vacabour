@@ -9,11 +9,11 @@ class Vocabour(w.VBox):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._glossary = Glossary()
-        self._drill_defs = drills.GameBrowser()
+        self._drills = drills.GameBrowser()
 
         # sections
         self._btn_glossary = w.Button(description = "Glossary")
-        self._btn_drill_defs = w.Button(description = "Defintions")
+        self._btn_drill_defs = w.Button(description = "Drills")
 
         if not DATA_DIRECTORY.exists():
             DATA_DIRECTORY.mkdir()
@@ -30,9 +30,9 @@ class Vocabour(w.VBox):
         self._btn_drill_defs.on_click(self.handle_open_drill_defs)
 
         self._glossary.on_exit(self.handle_section_exit)
-        self._drill_defs.on_exit(self.handle_section_exit)
+        self._drills.on_exit(self.handle_section_exit)
         self._glossary.on_save(self.handle_save_glossary)
-        self._drill_defs.on_save(self.handle_save_glossary)
+        self._drills.on_save(self.handle_save_glossary)
 
     @property
     def menu(self):
@@ -64,8 +64,8 @@ class Vocabour(w.VBox):
         self._reset()
 
     def handle_open_drill_defs(self, _):
-        self._drill_defs.load(self._get_glossary())
-        self.children = [self._drill_defs]
+        self._drills.load(self._get_glossary())
+        self.children = [self._drills]
 
     def _reset(self):
         self.children = [self._accordian]

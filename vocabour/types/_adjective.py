@@ -1,101 +1,192 @@
+from __future__ import annotations
 from ._word import Word
 
 class Adjective(Word):
-    class FIELD_KEY(Word.FIELD_KEY):
-        '''
-        Keys used to store and retrieve Adjective data in glossary files.
-        '''
-        MASC_SING_NOMINATIVE = Word.FIELD_KEY.DICTIONARY_FORM
-        MASC_SING_GENATIVE = "masc_sing_genative"
-        MASC_SING_DATIVE = "masc_sing_dative"
-        MASC_SING_ACCUSATIVE = "masc_sing_accusative"
-        MASC_SING_INSTRUMENTAL = "masc_sing_instrumental"
-        MASC_SING_PREPOSITIONAL = "masc_sing_prepositional"
-
-        FEM_SING_NOMINATIVE = "fem_sing_nominative"
-        FEM_SING_GENATIVE = "fem_sing_genative"
-        FEM_SING_DATIVE = "fem_sing_dative"
-        FEM_SING_ACCUSATIVE = "fem_sing_accusative"
-        FEM_SING_INSTRUMENTAL = "fem_sing_instrumental"
-        FEM_SING_PREPOSITIONAL = "fem_sing_prepositional"
-
-        NEUT_SING_NOMINATIVE = "neut_sing_nominative"
-        NEUT_SING_GENATIVE = "neut_sing_genative"
-        NEUT_SING_DATIVE = "neut_sing_dative"
-        NEUT_SING_ACCUSATIVE = "neut_sing_accusative"
-        NEUT_SING_INSTRUMENTAL = "neut_sing_instrumental"
-        NEUT_SING_PREPOSITIONAL = "neut_sing_prepositional"
-
-        PLURAL_NOMINATIVE = "plural_nominative"
-        PLURAL_GENATIVE = "plural_genative"
-        PLURAL_DATIVE = "plural_dative"
-        PLURAL_ACCUSATIVE = "plural_accusative"
-        PLURAL_INSTRUMENTAL = "plural_instrumental"
-        PLURAL_PREPOSITIONAL = "plural_prepositional"
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.masc_sing_genative = kwargs.get(Adjective.FIELD_KEY.MASC_SING_GENATIVE, None)
-        self.masc_sing_dative = kwargs.get(Adjective.FIELD_KEY.MASC_SING_DATIVE, None)
-        self.masc_sing_accusative = kwargs.get(Adjective.FIELD_KEY.MASC_SING_ACCUSATIVE, None)
-        self.masc_sing_instrumental = kwargs.get(Adjective.FIELD_KEY.MASC_SING_INSTRUMENTAL, None)
-        self.masc_sing_prepositional = kwargs.get(Adjective.FIELD_KEY.MASC_SING_PREPOSITIONAL, None)
-        self.fem_sing_nominative = kwargs.get(Adjective.FIELD_KEY.FEM_SING_NOMINATIVE, None)
-        self.fem_sing_genative = kwargs.get(Adjective.FIELD_KEY.FEM_SING_GENATIVE, None)
-        self.fem_sing_dative = kwargs.get(Adjective.FIELD_KEY.FEM_SING_DATIVE, None)
-        self.fem_sing_accusative = kwargs.get(Adjective.FIELD_KEY.FEM_SING_ACCUSATIVE, None)
-        self.fem_sing_instrumental = kwargs.get(Adjective.FIELD_KEY.FEM_SING_INSTRUMENTAL, None)
-        self.fem_sing_prepositional = kwargs.get(Adjective.FIELD_KEY.FEM_SING_PREPOSITIONAL, None)
-        self.neut_sing_nominative = kwargs.get(Adjective.FIELD_KEY.NEUT_SING_NOMINATIVE, None)
-        self.neut_sing_genative = kwargs.get(Adjective.FIELD_KEY.NEUT_SING_GENATIVE, None)
-        self.neut_sing_dative = kwargs.get(Adjective.FIELD_KEY.NEUT_SING_DATIVE, None)
-        self.neut_sing_accusative = kwargs.get(Adjective.FIELD_KEY.NEUT_SING_ACCUSATIVE, None)
-        self.neut_sing_instrumental = kwargs.get(Adjective.FIELD_KEY.NEUT_SING_INSTRUMENTAL, None)
-        self.neut_sing_prepositional = kwargs.get(Adjective.FIELD_KEY.NEUT_SING_PREPOSITIONAL, None)
-        self.plural_nominative = kwargs.get(Adjective.FIELD_KEY.PLURAL_NOMINATIVE, None)
-        self.plural_genative = kwargs.get(Adjective.FIELD_KEY.PLURAL_GENATIVE, None)
-        self.plural_dative = kwargs.get(Adjective.FIELD_KEY.PLURAL_DATIVE, None)
-        self.plural_accusative = kwargs.get(Adjective.FIELD_KEY.PLURAL_ACCUSATIVE, None)
-        self.plural_instrumental = kwargs.get(Adjective.FIELD_KEY.PLURAL_INSTRUMENTAL, None)
-        self.plural_prepositional = kwargs.get(Adjective.FIELD_KEY.PLURAL_PREPOSITIONAL, None)
-
         self.list_prefix = "AD"
 
     def save_data(self):
         _out = super().save_data()
-        _out[Adjective.FIELD_KEY.MASC_SING_GENATIVE] = self.masc_sing_genative
-        _out[Adjective.FIELD_KEY.MASC_SING_DATIVE] = self.masc_sing_dative
-        _out[Adjective.FIELD_KEY.MASC_SING_ACCUSATIVE] = self.masc_sing_accusative
-        _out[Adjective.FIELD_KEY.MASC_SING_INSTRUMENTAL] = self.masc_sing_instrumental
-        _out[Adjective.FIELD_KEY.MASC_SING_PREPOSITIONAL] = self.masc_sing_prepositional
-        _out[Adjective.FIELD_KEY.FEM_SING_NOMINATIVE] = self.fem_sing_nominative
-        _out[Adjective.FIELD_KEY.FEM_SING_GENATIVE] = self.fem_sing_genative
-        _out[Adjective.FIELD_KEY.FEM_SING_DATIVE] = self.fem_sing_dative
-        _out[Adjective.FIELD_KEY.FEM_SING_ACCUSATIVE] = self.fem_sing_accusative
-        _out[Adjective.FIELD_KEY.FEM_SING_INSTRUMENTAL] = self.fem_sing_instrumental
-        _out[Adjective.FIELD_KEY.FEM_SING_PREPOSITIONAL] = self.fem_sing_prepositional
-        _out[Adjective.FIELD_KEY.NEUT_SING_NOMINATIVE] = self.neut_sing_nominative
-        _out[Adjective.FIELD_KEY.NEUT_SING_GENATIVE] = self.neut_sing_genative
-        _out[Adjective.FIELD_KEY.NEUT_SING_DATIVE] = self.neut_sing_dative
-        _out[Adjective.FIELD_KEY.NEUT_SING_ACCUSATIVE] = self.neut_sing_accusative
-        _out[Adjective.FIELD_KEY.NEUT_SING_INSTRUMENTAL] = self.neut_sing_instrumental
-        _out[Adjective.FIELD_KEY.NEUT_SING_PREPOSITIONAL] = self.neut_sing_prepositional
-        _out[Adjective.FIELD_KEY.PLURAL_NOMINATIVE] = self.plural_nominative
-        _out[Adjective.FIELD_KEY.PLURAL_GENATIVE] = self.plural_genative
-        _out[Adjective.FIELD_KEY.PLURAL_DATIVE] = self.plural_dative
-        _out[Adjective.FIELD_KEY.PLURAL_ACCUSATIVE] = self.plural_accusative
-        _out[Adjective.FIELD_KEY.PLURAL_INSTRUMENTAL] = self.plural_instrumental
-        _out[Adjective.FIELD_KEY.PLURAL_PREPOSITIONAL] = self.plural_prepositional
         return _out
 
-    @property
-    def masc_sing_nominative(self):
-        return self.dictionary_form
-
-    @masc_sing_nominative.setter
-    def masc_sing_nominative(self, value):
-        self.dictionary_form = value
+    def all_forms(self):
+        return [
+            self.sg_nom_mas,
+            self.sg_nom_fem,
+            self.sg_nom_neu,
+            self.pl_nom,
+            self.sg_pre_mas,
+            self.sg_pre_fem,
+            self.sg_acc_neu,
+        ]
 
     @staticmethod
     def from_data(data):
         return Adjective(**data)
+
+    @property
+    def sg_nom_mas(self):
+        return self.dictionary_form
+
+    @property
+    def sg_nom_fem(self):
+        return Adjective.get_sg_nom_fem(self)
+    @staticmethod
+    def get_sg_nom_fem(word: Adjective):
+        _base: str = word.dictionary_form
+        return _base[:-2] + "ая" if not _base.endswith("ний") else _base[:-2] + "яя"
+
+    @property
+    def sg_nom_neu(self):
+        return Adjective.get_sg_nom_neu(self)
+    @staticmethod
+    def get_sg_nom_neu(word: Adjective):
+        return None
+
+    @property
+    def sg_gen_mas(self):
+        return Adjective.get_sg_gen_mas(self)
+    @staticmethod
+    def get_sg_gen_mas(word: Adjective):
+        return None
+
+    @property
+    def sg_gen_fem(self):
+        return Adjective.get_sg_gen_fem(self)
+    @staticmethod
+    def get_sg_gen_fem(word: Adjective):
+        return None
+
+    @property
+    def sg_gen_neu(self):
+        return Adjective.get_sg_gen_neu(self)
+    @staticmethod
+    def get_sg_gen_neu(word: Adjective):
+        return None
+
+    @property
+    def sg_dat_mas(self):
+        return Adjective.get_sg_dat_mas(self)
+    @staticmethod
+    def get_sg_dat_mas(word: Adjective):
+        return None
+
+    @property
+    def sg_dat_fem(self):
+        return Adjective.get_sg_dat_fem(self)
+    @staticmethod
+    def get_sg_dat_fem(word: Adjective):
+        return None
+
+    @property
+    def sg_dat_neu(self):
+        return Adjective.get_sg_dat_neu(self)
+    @staticmethod
+    def get_sg_dat_neu(word: Adjective):
+        return None
+
+    @property
+    def sg_acc_mas(self):
+        return Adjective.get_sg_acc_mas(self)
+    @staticmethod
+    def get_sg_acc_mas(word: Adjective):
+        return None
+
+    @property
+    def sg_acc_fem(self):
+        return Adjective.get_sg_acc_fem(self)
+    @staticmethod
+    def get_sg_acc_fem(word: Adjective):
+        return None
+
+    @property
+    def sg_acc_neu(self):
+        return Adjective.get_sg_acc_neu(self)
+    @staticmethod
+    def get_sg_acc_neu(word: Adjective):
+        return None
+
+    @property
+    def sg_ins_mas(self):
+        return Adjective.get_sg_ins_mas(self)
+    @staticmethod
+    def get_sg_ins_mas(word: Adjective):
+        return None
+
+    @property
+    def sg_ins_fem(self):
+        return Adjective.get_sg_ins_fem(self)
+    @staticmethod
+    def get_sg_ins_fem(word: Adjective):
+        return None
+
+    @property
+    def sg_ins_neu(self):
+        return Adjective.get_sg_ins_neu(self)
+    @staticmethod
+    def get_sg_ins_neu(word: Adjective):
+        return None
+
+    @property
+    def sg_pre_mas(self):
+        return Adjective.get_sg_pre_mas(self)
+    @staticmethod
+    def get_sg_pre_mas(word: Adjective):
+        return None
+
+    @property
+    def sg_pre_fem(self):
+        return Adjective.get_sg_pre_fem(self)
+    @staticmethod
+    def get_sg_pre_fem(word: Adjective):
+        return None
+
+    @property
+    def sg_pre_neu(self):
+        return Adjective.get_sg_pre_neu(self)
+    @staticmethod
+    def get_sg_pre_neu(word: Adjective):
+        return None
+
+    @property
+    def pl_nom(self):
+        return Adjective.get_pl_nom(self)
+    @staticmethod
+    def get_pl_nom(word: Adjective):
+        return None
+
+    @property
+    def pl_gen(self):
+        return Adjective.get_pl_gen(self)
+    @staticmethod
+    def get_pl_gen(word: Adjective):
+        return None
+
+    @property
+    def pl_dat(self):
+        return Adjective.get_pl_dat(self)
+    @staticmethod
+    def get_pl_dat(word: Adjective):
+        return None
+
+    @property
+    def pl_acc(self):
+        return Adjective.get_pl_acc(self)
+    @staticmethod
+    def get_pl_acc(word: Adjective):
+        return None
+
+    @property
+    def pl_ins(self):
+        return Adjective.get_pl_ins(self)
+    @staticmethod
+    def get_pl_ins(word: Adjective):
+        return None
+
+    @property
+    def pl_pre(self):
+        return Adjective.get_pl_pre(self)
+    @staticmethod
+    def get_pl_pre(word: Adjective):
+        return None

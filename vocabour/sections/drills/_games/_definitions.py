@@ -122,7 +122,3 @@ class Definitions(BaseMenu):
 
         t.sleep(1)
         self.set_up()
-
-    def handle_main_menu(self, _):
-        self.save()
-        self.exit()

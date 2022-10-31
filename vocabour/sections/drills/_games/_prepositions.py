@@ -21,7 +21,7 @@ class Prepositions(BaseMenu):
         _blanks = []
 
         for s in _sample:
-            _blanks.append(w.Dropdown(options = s.all_forms()))
+            _blanks.append(w.Dropdown(value = None, options = s.all_forms(), layout = w.Layout(width = "initial")))
 
         self._selections.children = _blanks
 

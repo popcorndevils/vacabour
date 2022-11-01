@@ -157,13 +157,20 @@ class Noun(Word):
         return Noun(**data)
 
     @staticmethod
-    def get_gender(word: Noun):
-        _last = word.dictionary_form[-1].lower()
-        if _last in ["а", "я"]:
-            return Genders.FEMININE
-        elif _last in ["о", "е"]:
-            return Genders.NEUTER
-        return Genders.MASCULINE
+    def get_gender(word):
+        _last = None
+        if isinstance(word, Noun):
+            _last = word.dictionary_form[-1].lower()
+        elif isinstance(word, str) and len(word) > 0:
+            _last = word[-1].lower()
+
+        if _last is not None:
+            if _last in ["а", "я"]:
+                return Genders.FEMININE
+            elif _last in ["о", "е"]:
+                return Genders.NEUTER
+            return Genders.MASCULINE
+        return None
 
     @staticmethod
     def get_sg_gen(word: Noun):

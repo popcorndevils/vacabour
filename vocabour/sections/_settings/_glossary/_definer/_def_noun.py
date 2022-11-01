@@ -74,6 +74,7 @@ class DefNoun(BaseDefiner):
 
     def handle_inf_update(self, _):
         self._fld_sing_nom.value = self._wordinfo.dictionary
+        self._gender.value = Noun.get_gender(self._wordinfo.dictionary)
 
     def handle_save(self, _):
         _out = Noun.from_data(self.base_data())
